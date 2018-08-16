@@ -1,0 +1,38 @@
+{
+  "name": "lev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Let’s Encrypt visa（Let’s Encrypt 签证）",
+  "scripts": {
+    "start": "node ./clis/start.js"
+  },
+  "preferGlobal": false,
+  "bin": {
+    "lev": "./bin/lev.js"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "iojs": ">= 1.0.0"
+  },
+  "main": "index.js",
+  "keywords": [
+    "cloudcome",
+    "ydr.me"
+  ],
+  "author": "#云淡然 <cloudcome@163.com> (https://ydr.me/)",
+  "contributors": [],
+  "homepage": "https://github.com/nodejs-clis/lev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodejs-clis/lev"
+  },
+  "bugs": {
+    "url": "https://github.com/nodejs-clis/lev/issues"
+  },
+  "dependencies": {
+    "yargs": "^12.0.1"
+  },
+  "peerDependencies": {},
+  "devDependencies": {},
+  "license": "MIT"
+}
