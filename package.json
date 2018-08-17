@@ -1,7 +1,7 @@
 {
   "name": "elev",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Easy Let’s Encrypt Visa（简洁的 Let’s Encrypt 签证）",
   "scripts": {
     "start": "node ./clis/start.js"
