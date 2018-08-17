@@ -14,16 +14,16 @@ exports.command = 'visa';
 
 exports.describe = 'Issue a Let’s Encrypt certificate';
 
-exports.builder = {
+exports.options = {
     config: {
         alias: 'c',
-        demandOption: true,
+        required: true,
         type: 'string',
-        coerce: path.resolve
+        transform: path.resolve
     }
 };
 
-exports.handler = function (argv) {
+exports.action = function (argv) {
     console.log('init', argv);
 };
 
