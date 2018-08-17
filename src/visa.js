@@ -23,9 +23,8 @@ var exec = require('./exec');
  */
 module.exports = function (configs) {
     if (configs.debug) {
-        console.logWithTime('配置文件');
+        console.logWithTime('配置信息');
         console.logWithTime(configs);
-        return;
     }
 
     plan

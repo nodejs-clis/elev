@@ -18,10 +18,14 @@ var shell = require('shelljs');
 module.exports = function (configs) {
     var command = configs.afterSaveCommand;
 
+    console.infoWithTime(command);
+
     if (shell.exec(command).code !== 0) {
-        console.error('命令执行失败，请手动执行后续操作');
-        console.error(command);
-        process.exit(1);
+        console.errorWithTime('命令执行失败，请手动执行后续操作');
+        return process.exit(1);
     }
+
+    console.infoWithTime('命令执行成功');
+    console.infoWithTime('Let’s Encrypt 证书签发完毕');
 };
 

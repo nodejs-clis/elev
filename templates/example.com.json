@@ -1,6 +1,6 @@
 {
   "email": "",
-  "debug": true,
+  "debug": false,
   "domain": "",
   "dnsRefreshSeconds": 120,
   "dnsServerName": "aliyun",

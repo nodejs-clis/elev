@@ -20,26 +20,31 @@ var console = require('blear.node.console');
  */
 module.exports = function (config, keyBf, pemBf) {
     var file = path.join(config.saveDirname, config.certificateKeyFileName);
+
+    console.infoWithTime(file);
     try {
         fse.outputFileSync(
             file,
             keyBf
         );
+        console.infoWithTime('文件保存成功');
     } catch (err) {
-        console.error(file, '文件保存失败');
-        console.error(err.message);
+        console.errorWithTime('文件保存失败');
+        console.errorWithTime(err.message);
         process.exit(1);
     }
 
     file = path.join(config.saveDirname, config.certificateCertFileName);
+    console.infoWithTime(file);
     try {
         fse.outputFileSync(
             path.join(config.saveDirname, config.certificateCertFileName),
             pemBf
         );
+        console.infoWithTime('文件保存成功');
     } catch (err) {
-        console.error(file, '文件保存失败');
-        console.error(err.message);
+        console.errorWithTime('文件保存失败');
+        console.errorWithTime(err.message);
         process.exit(1);
     }
 };

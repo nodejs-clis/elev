@@ -15,11 +15,17 @@ var fs = require('fs');
 /**
  * 生成配置文件
  * @param configs
+ * @param configs.debug
  * @param configs.domain
  */
 module.exports = function (configs) {
     var json = JSON.stringify(configs, null, 4) + '\n';
     var file = path.join(process.cwd(), configs.domain + '.json');
+
+    if (configs.debug) {
+        console.logWithTime('配置信息');
+        console.logWithTime(configs);
+    }
 
     try {
         fs.writeFileSync(file, json);
