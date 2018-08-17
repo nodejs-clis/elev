@@ -141,9 +141,11 @@ function issue(configs, callback) {
             })
             .taskPromise(function () {
                 console.logWithTime('检查验证结果');
+                console.loading();
                 return client.verifyChallenge(authz, challenge);
             })
             .taskPromise(function () {
+                console.loadingEnd();
                 console.logWithTime('提交验证结果');
                 return client.completeChallenge(challenge);
             })

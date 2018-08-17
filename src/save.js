@@ -21,13 +21,13 @@ var console = require('blear.node.console');
 module.exports = function (config, keyBf, pemBf) {
     var file = path.join(config.saveDirname, config.certificateKeyFileName);
 
-    console.infoWithTime(file);
+    console.logWithTime(file);
     try {
         fse.outputFileSync(
             file,
             keyBf
         );
-        console.infoWithTime('文件保存成功');
+        console.logWithTime('文件保存成功');
     } catch (err) {
         console.errorWithTime('文件保存失败');
         console.errorWithTime(err.message);
@@ -35,13 +35,13 @@ module.exports = function (config, keyBf, pemBf) {
     }
 
     file = path.join(config.saveDirname, config.certificateCertFileName);
-    console.infoWithTime(file);
+    console.logWithTime(file);
     try {
         fse.outputFileSync(
             path.join(config.saveDirname, config.certificateCertFileName),
             pemBf
         );
-        console.infoWithTime('文件保存成功');
+        console.logWithTime('文件保存成功');
     } catch (err) {
         console.errorWithTime('文件保存失败');
         console.errorWithTime(err.message);
