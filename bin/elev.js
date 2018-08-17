@@ -18,6 +18,7 @@ cli
     .helper()
     .command(require('../cmds/init'))
     .command(require('../cmds/visa'))
+    .command(require('../cmds/cron'))
     .parse({
         bin: 'lev',
         package: require('../package.json')

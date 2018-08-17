@@ -19,9 +19,12 @@ var exec = require('./exec');
 /**
  * 签证
  * @param configs
+ * @param configs.config
  * @param configs.debug
  */
 module.exports = function (configs) {
+    configs = require(configs.config);
+
     if (configs.debug) {
         console.logWithTime('配置信息');
         console.logWithTime(configs);

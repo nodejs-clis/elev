@@ -151,9 +151,11 @@ function issue(configs, callback) {
             })
             .taskPromise(function () {
                 console.logWithTime('等待验证状态');
+                console.loading();
                 return client.waitForValidStatus(challenge);
             })
             .task(function (next) {
+                console.loadingEnd();
                 console.logWithTime('验证成功');
                 finshChallenge(authz, challenge, next);
             })

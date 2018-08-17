@@ -10,7 +10,9 @@
 
 var console = require('blear.node.console');
 var path = require('blear.node.path');
-var fs = require('fs');
+var fse = require('fs-extra');
+
+var constant = require('./constant');
 
 /**
  * 生成配置文件
@@ -20,21 +22,22 @@ var fs = require('fs');
  */
 module.exports = function (configs) {
     var json = JSON.stringify(configs, null, 4) + '\n';
-    var file = path.join(process.cwd(), configs.domain + '.json');
+    var dirname = process.env.HOME;
+    var file = path.join(dirname, constant.CONFIG_FOLDER_NAME, 'domain', configs.domain + '.json');
 
     if (configs.debug) {
         console.logWithTime('配置信息');
         console.logWithTime(configs);
     }
 
+    console.infoWithTime(file);
+
     try {
-        fs.writeFileSync(file, json);
-        console.info('配置文件生成成功');
-        console.info(file);
+        fse.outputFileSync(file, json);
+        console.infoWithTime('配置文件生成成功');
     } catch (err) {
-        console.error('配置文件生成失败');
-        console.error(file);
-        console.error(err.message);
+        console.errorWithTime('配置文件生成失败');
+        console.errorWithTime(err.message);
         process.exit(1);
     }
 };

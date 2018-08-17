@@ -12,7 +12,6 @@ var path = require('blear.node.path');
 var string = require('blear.utils.string');
 
 var example = require('../templates/example.com.json');
-var init = require('../src/init');
 
 exports.command = 'init';
 
@@ -101,8 +100,6 @@ exports.options = {
     }
 };
 
-exports.action = function (options) {
-    init(options);
-};
+exports.action = require('../src/init');
 
 
