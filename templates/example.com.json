@@ -3,7 +3,7 @@
   "accessKeySecret": "",
   "email": "",
   "debug": true,
-  "domain": "example.com",
+  "domain": "",
   "dnsRefreshSeconds": 120,
   "certificateKeyFileName": "${domain}.key",
   "certificateCertFileName": "${domain}.pem",

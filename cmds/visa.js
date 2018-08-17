@@ -12,7 +12,7 @@ var path = require('blear.node.path');
 
 exports.command = 'visa';
 
-exports.describe = 'Issue a Let’s Encrypt certificate';
+exports.describe = '签发一张 Let’s Encrypt 泛域名证书';
 
 exports.options = {
     config: {

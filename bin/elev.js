@@ -11,7 +11,7 @@ var cli = require('blear.node.cli');
 
 cli
     .banner(
-        'lev'
+        'elev'
     )
     .command()
     .versioning()
