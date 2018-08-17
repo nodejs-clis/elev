@@ -8,5 +8,5 @@
   "certificateKeyFileName": "${domain}.key",
   "certificateCertFileName": "${domain}.pem",
   "saveDirname": "/etc/nginx/cert.d",
-  "aterSaveCommand": "nginx -t && nginx -s reload"
+  "afterSaveCommand": "nginx -t && nginx -s reload"
 }

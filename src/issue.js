@@ -17,25 +17,27 @@ var acme = require('acme-client');
 
 var alidns = require('./alidns');
 
-issue();
+module.exports = issue;
 
 // ========================
-function issue() {
-    var configs = {
-        accessKeyId: 'xxx',
-        accessKeySecret: 'yyy',
-        email: 'zzz',
-        debug: true,
-        domain: 'example.com',
-        // dns 验证等待时间
-        dnsVerifyWaitTime: 2 * 60 * 1000,
-        cookies: {},
-        certificateKey: null,
-        certificateCsr: null,
-        certificateCert: null,
-        order: null,
-        client: null
-    };
+
+/**
+ * 颁发
+ * @param configs
+ * @param configs.accessKeyId
+ * @param configs.accessKeySecret
+ * @param configs.email
+ * @param configs.debug
+ * @param configs.domain
+ * @param configs.dnsRefreshSeconds
+ */
+function issue(configs) {
+    var certificateKey = null;
+    var certificateCsr = null;
+    var certificateCert = null;
+    var order = null;
+    var client = null;
+    var dnsVerifyWaitTime = configs.dnsRefreshSeconds * 1000;
 
     plan
         .taskPromise(function () {
@@ -43,7 +45,7 @@ function issue() {
             return acme.openssl.createPrivateKey();
         })
         .taskSync(function (privateKey) {
-            configs.client = new acme.Client({
+            client = new acme.Client({
                 directoryUrl: acme.directory.letsencrypt.staging,
                 accountKey: privateKey,
                 backoffAttempts: 10
@@ -51,24 +53,24 @@ function issue() {
         })
         .taskPromise(function () {
             console.logWithTime('创建 Let’s Encrypt 账户');
-            return configs.client.createAccount({
+            return client.createAccount({
                 termsOfServiceAgreed: true,
                 contact: ['mailto:' + configs.email]
             });
         })
         .taskPromise(function () {
             console.logWithTime('创建 Let’s Encrypt 订单');
-            return configs.client.createOrder({
+            return client.createOrder({
                 identifiers: [
                     {type: 'dns', value: configs.domain},
                     {type: 'dns', value: '*.' + configs.domain}
                 ]
             });
         })
-        .taskPromise(function (order) {
-            configs.order = order;
+        .taskPromise(function (_order) {
+            order = _order;
             console.logWithTime('处理 Let’s Encrypt 订单');
-            return configs.client.getAuthorizations(order);
+            return client.getAuthorizations(order);
         })
         .task(function (next, authorizations) {
             console.logWithTime('需要验证', authorizations.length, '次');
@@ -84,24 +86,24 @@ function issue() {
             });
         })
         .taskPromise(function (com) {
-            configs.certificateKey = com[0];
-            configs.certificateCsr = com[1];
+            certificateKey = com[0];
+            certificateCsr = com[1];
             console.logWithTime('完成 Let’s Encrypt 订单');
-            return configs.client.finalizeOrder(configs.order, configs.certificateCsr);
+            return client.finalizeOrder(order, certificateCsr);
         })
         .taskPromise(function () {
             console.logWithTime('获取 Let’s Encrypt 证书');
-            return configs.client.getCertificate(configs.order);
+            return client.getCertificate(order);
         })
         .taskSync(function (cert) {
-            configs.certificateCert = cert;
+            certificateCert = cert;
         })
         .serial()
         .try(function () {
             console.logWithTime('Let’s Encrypt 证书密钥');
-            console.logWithTime(configs.certificateKey.toString());
+            console.logWithTime(certificateKey.toString());
             console.logWithTime('Let’s Encrypt 证书链');
-            console.logWithTime(configs.certificateCert.toString());
+            console.logWithTime(certificateCert.toString());
         })
         .catch(function (err) {
             console.logWithTime('Let’s Encrypt 证书颁发失败');
@@ -128,7 +130,7 @@ function issue() {
         plan
             .taskPromise(function () {
                 console.logWithTime('选择验证方式', challenge.type);
-                return configs.client.getChallengeKeyAuthorization(challenge);
+                return client.getChallengeKeyAuthorization(challenge);
             })
             .task(function (next, keyAuthorization) {
                 console.logWithTime('应用验证方式');
@@ -136,15 +138,15 @@ function issue() {
             })
             .taskPromise(function () {
                 console.logWithTime('检查验证结果');
-                return configs.client.verifyChallenge(authz, challenge);
+                return client.verifyChallenge(authz, challenge);
             })
             .taskPromise(function () {
                 console.logWithTime('提交验证结果');
-                return configs.client.completeChallenge(challenge);
+                return client.completeChallenge(challenge);
             })
             .taskPromise(function () {
                 console.logWithTime('等待验证状态');
-                return configs.client.waitForValidStatus(challenge);
+                return client.waitForValidStatus(challenge);
             })
             .task(function (next) {
                 console.logWithTime('验证成功');
@@ -177,13 +179,13 @@ function issue() {
             })
             .task(function (next) {
                 var timer = time.setInterval(function () {
-                    if (timer.elapsedTime > configs.dnsVerifyWaitTime) {
+                    if (timer.elapsedTime > dnsVerifyWaitTime) {
                         time.clearInterval(timer);
                         console.pointEnd();
                         return next();
                     }
 
-                    var remainTime = configs.dnsVerifyWaitTime - timer.elapsedTime;
+                    var remainTime = dnsVerifyWaitTime - timer.elapsedTime;
                     console.point('等待 DNS 记录生效，倒计时 ' + parseInt(remainTime / 1000) + ' 秒');
                 }, 1000, true);
             })

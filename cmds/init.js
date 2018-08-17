@@ -9,7 +9,9 @@
 'use strict';
 
 var path = require('blear.node.path');
+var console = require('blear.node.console');
 var string = require('blear.utils.string');
+var fs = require('fs');
 
 var example = require('../templates/example.com.json');
 
@@ -86,16 +88,26 @@ exports.options = {
         type: 'string',
         coerce: path.resolve
     },
-    aterSaveCommand: {
+    afterSaveCommand: {
         alias: 'e',
-        default: example.aterSaveCommand,
+        default: example.afterSaveCommand,
         describe: '证书保存后的执行命令，请确保有执行权限',
         type: 'string'
     }
 };
 
 exports.action = function (options) {
-    console.log('init', options);
+    var json = JSON.stringify(options, null, 4) + '\n';
+
+    try {
+        fs.writeFileSync(
+            path.join(process.cwd(), options.domain + '.json'),
+            json
+        );
+    } catch (err) {
+        console.error(err.message);
+        process.exit(1);
+    }
 };
 
 
