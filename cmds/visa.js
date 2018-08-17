@@ -10,7 +10,7 @@
 
 var path = require('blear.node.path');
 
-var issue = require('../src/issue');
+var visa = require('../src/visa');
 
 exports.command = 'visa';
 
@@ -33,9 +33,7 @@ exports.options = {
 };
 
 exports.action = function (options) {
-    var json = require(options.config);
-
-    issue(json);
+    visa(require(options.config));
 };
 
 

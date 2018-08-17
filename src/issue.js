@@ -32,7 +32,7 @@ module.exports = issue;
  * @param configs.domain
  * @param configs.dnsRefreshSeconds
  */
-function issue(configs) {
+function issue(configs, callback) {
     var certificateKey = null;
     var certificateCsr = null;
     var certificateCert = null;
@@ -101,14 +101,16 @@ function issue(configs) {
         })
         .serial()
         .try(function () {
-            console.logWithTime('Let’s Encrypt 证书密钥');
-            console.logWithTime(certificateKey.toString());
-            console.logWithTime('Let’s Encrypt 证书链');
-            console.logWithTime(certificateCert.toString());
+            // console.logWithTime('Let’s Encrypt 证书密钥');
+            // console.logWithTime(certificateKey.toString());
+            // console.logWithTime('Let’s Encrypt 证书链');
+            // console.logWithTime(certificateCert.toString());
+            callback(null, [certificateKey, certificateCert]);
         })
         .catch(function (err) {
-            console.logWithTime('Let’s Encrypt 证书颁发失败');
+            console.errorWithTime('Let’s Encrypt 证书颁发失败');
             console.errorWithTime(err.message);
+            process.exit(1);
         });
 
 

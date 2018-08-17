@@ -9,11 +9,10 @@
 'use strict';
 
 var path = require('blear.node.path');
-var console = require('blear.node.console');
 var string = require('blear.utils.string');
-var fs = require('fs');
 
 var example = require('../templates/example.com.json');
+var init = require('../src/init');
 
 exports.command = 'init';
 
@@ -103,17 +102,7 @@ exports.options = {
 };
 
 exports.action = function (options) {
-    var json = JSON.stringify(options, null, 4) + '\n';
-
-    try {
-        fs.writeFileSync(
-            path.join(process.cwd(), options.domain + '.json'),
-            json
-        );
-    } catch (err) {
-        console.error(err.message);
-        process.exit(1);
-    }
+    init(options);
 };
 
 

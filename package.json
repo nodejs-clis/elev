@@ -43,7 +43,9 @@
     "blear.utils.random": "^1.0.4",
     "blear.utils.string": "^1.0.9",
     "blear.utils.time": "^1.0.6",
-    "blear.utils.typeis": "^1.0.3"
+    "blear.utils.typeis": "^1.0.3",
+    "fs-extra": "^7.0.0",
+    "shelljs": "^0.8.2"
   },
   "peerDependencies": {},
   "devDependencies": {},

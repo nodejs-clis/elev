@@ -113,6 +113,7 @@ function buildPublicArgs(accessKeyId, accessKeySecret) {
  * @param configs.dnsServerAccessKey
  * @param configs.dnsServerAccessSecret
  * @param configs.domain
+ * @param configs.debug
  * @param value
  * @param callback
  */
@@ -135,7 +136,8 @@ function addRecord(configs, value, callback) {
     console.logWithTime('添加 TXT 记录', privateArgs.Value);
     ask({
         method: method,
-        query: args
+        query: args,
+        debug: configs.debug
     }, function (err, json) {
         // 重复设置也默认正确
         if (err && err.Code === 'DomainRecordDuplicate') {
@@ -151,6 +153,7 @@ function addRecord(configs, value, callback) {
  * @param configs
  * @param configs.dnsServerAccessKey
  * @param configs.dnsServerAccessSecret
+ * @param configs.debug
  * @param recordId
  * @param callback
  */
@@ -169,7 +172,8 @@ function removeRecord(configs, recordId, callback) {
     console.logWithTime('删除 TXT 记录');
     ask({
         method: method,
-        query: args
+        query: args,
+        debug: configs.debug
     }, callback);
 }
 
