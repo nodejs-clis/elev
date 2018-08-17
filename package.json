@@ -1,8 +1,8 @@
 {
-  "name": "lev",
+  "name": "elev",
   "version": "1.0.0",
   "private": true,
-  "description": "Let’s Encrypt visa（Let’s Encrypt 签证）",
+  "description": "Easy Let’s Encrypt Visa（简洁的 Let’s Encrypt 签证）",
   "scripts": {
     "start": "node ./clis/start.js"
   },
