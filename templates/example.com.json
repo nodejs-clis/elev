@@ -1,0 +1,12 @@
+{
+  "accessKeyId": "",
+  "accessKeySecret": "",
+  "email": "",
+  "debug": true,
+  "domain": "example.com",
+  "dnsRefreshSeconds": 120,
+  "certificateKeyFileName": "${domain}.key",
+  "certificateCertFileName": "${domain}.pem",
+  "saveDirname": "/etc/nginx/cert.d",
+  "aterSaveCommand": "nginx -t && nginx -s reload"
+}

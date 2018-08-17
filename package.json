@@ -30,7 +30,19 @@
     "url": "https://github.com/nodejs-clis/lev/issues"
   },
   "dependencies": {
-    "yargs": "^12.0.1"
+    "acme-client": "^2.0.0",
+    "blear.classes.error": "^1.0.4",
+    "blear.node.cli": "^1.0.4",
+    "blear.node.console": "^1.0.10",
+    "blear.node.path": "^1.0.8",
+    "blear.node.request": "^2.0.9",
+    "blear.utils.array": "^1.0.12",
+    "blear.utils.object": "^1.0.14",
+    "blear.utils.plan": "^2.2.1",
+    "blear.utils.querystring": "^1.0.5",
+    "blear.utils.random": "^1.0.4",
+    "blear.utils.time": "^1.0.6",
+    "blear.utils.typeis": "^1.0.3"
   },
   "peerDependencies": {},
   "devDependencies": {},
