@@ -22,18 +22,6 @@ exports.describe = '初始化配置文件';
 exports.helper = true;
 
 exports.options = {
-    accessKeyId: {
-        alias: ['a'],
-        default: example.accessKeyId,
-        describe: '阿里云 RAM 用户 AK',
-        type: 'string'
-    },
-    accessKeySecret: {
-        alias: ['s'],
-        default: example.accessKeySecret,
-        describe: 'see https://help.aliyun.com/document_detail/28637.html',
-        type: 'string'
-    },
     email: {
         alias: ['e'],
         default: example.email,
@@ -58,6 +46,24 @@ exports.options = {
         default: example.dnsRefreshSeconds,
         describe: 'DNS 刷新秒数',
         type: 'number'
+    },
+    dnsServerName: {
+        alias: ['n'],
+        default: example.dnsServerName,
+        describe: 'DNS 服务商，目前仅支持阿里云',
+        type: 'string'
+    },
+    dnsServerAccessKey: {
+        alias: ['a'],
+        default: example.dnsServerAccessKey,
+        describe: '阿里云 RAM 用户 AK',
+        type: 'string'
+    },
+    dnsServerAccessSecret: {
+        alias: ['s'],
+        default: example.dnsServerAccessSecret,
+        describe: 'see <https' + '' + '://help.aliyun.com/document_detail/28637.html>',
+        type: 'string'
     },
     certificateKeyFileName: {
         default: example.certificateKeyFileName,

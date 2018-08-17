@@ -24,8 +24,9 @@ module.exports = issue;
 /**
  * 颁发
  * @param configs
- * @param configs.accessKeyId
- * @param configs.accessKeySecret
+ * @param configs.dnsServerName
+ * @param configs.dnsServerAccessKey
+ * @param configs.dnsServerAccessSecret
  * @param configs.email
  * @param configs.debug
  * @param configs.domain

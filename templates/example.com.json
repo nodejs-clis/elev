@@ -1,10 +1,11 @@
 {
-  "accessKeyId": "",
-  "accessKeySecret": "",
   "email": "",
   "debug": true,
   "domain": "",
   "dnsRefreshSeconds": 120,
+  "dnsServerName": "aliyun",
+  "dnsServerAccessKey": "",
+  "dnsServerAccessSecret": "",
   "certificateKeyFileName": "${domain}.key",
   "certificateCertFileName": "${domain}.pem",
   "saveDirname": "/etc/nginx/cert.d",
