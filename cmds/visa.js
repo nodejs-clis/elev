@@ -19,7 +19,7 @@ exports.options = {
         alias: 'c',
         required: true,
         type: 'string',
-        transform: function (val, options) {
+        transform: function (val, args, method, methods) {
             if (!val) {
                 return '';
             }

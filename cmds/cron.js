@@ -17,18 +17,11 @@ exports.describe = '创建定时任务';
 exports.helper = true;
 
 exports.options = {
-    config: {
-        alias: 'c',
+    domain: {
+        alias: 'd',
         required: true,
         type: 'string',
-        transform: function (val, options) {
-            if (!val) {
-                return '';
-            }
-
-            return path.resolve(val);
-        },
-        describe: '指定配置文件'
+        describe: '指定域名'
     }
 };
 

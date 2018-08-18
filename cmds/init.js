@@ -68,9 +68,9 @@ exports.options = {
         alias: 'k',
         describe: '证书 KEY 文件名',
         type: 'string',
-        transform: function (val, options) {
+        transform: function (val, args, method, methods) {
             return string.assign(val, {
-                domain: options.domain
+                domain: args.domain
             });
         }
     },
@@ -79,9 +79,9 @@ exports.options = {
         alias: 'p',
         describe: '证书 PEM 文件名',
         type: 'string',
-        transform: function (val, options) {
+        transform: function (val, args, method, methods) {
             return string.assign(val, {
-                domain: options.domain
+                domain: args.domain
             });
         }
     },

@@ -16,18 +16,24 @@ var constant = require('./constant');
 
 /**
  * 生成配置文件
- * @param configs
- * @param configs.debug
- * @param configs.domain
+ * @param args
+ * @param args.debug
+ * @param args.domain
+ * @param method
+ * @param methods
  */
-module.exports = function (configs) {
-    var json = JSON.stringify(configs, null, 4) + '\n';
+module.exports = function (args, method, methods) {
+    var json = JSON.stringify(args, null, 4) + '\n';
     var dirname = process.env.HOME;
-    var file = path.join(dirname, constant.CONFIG_FOLDER_NAME, 'domain', configs.domain + '.json');
+    var file = path.join(
+        constant.CONFIGS_DIRNAME,
+        constant.DOMAIN_FOLDER,
+        args.domain + '.json'
+    );
 
-    if (configs.debug) {
+    if (args.debug) {
         console.logWithTime('配置信息');
-        console.logWithTime(configs);
+        console.logWithTime(args);
     }
 
     console.infoWithTime(file);

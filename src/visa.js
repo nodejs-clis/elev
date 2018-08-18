@@ -18,27 +18,29 @@ var exec = require('./exec');
 
 /**
  * 签证
- * @param configs
- * @param configs.config
- * @param configs.debug
+ * @param args
+ * @param args.config
+ * @param args.debug
+ * @param method
+ * @param methods
  */
-module.exports = function (configs) {
-    configs = require(configs.config);
+module.exports = function (args, method, methods) {
+    args = require(args.config);
 
-    if (configs.debug) {
+    if (args.debug) {
         console.logWithTime('配置信息');
-        console.logWithTime(configs);
+        console.logWithTime(args);
     }
 
     plan
         .task(function (next) {
-            issue(configs, next);
+            issue(args, next);
         })
         .taskSync(function (com) {
-            save(configs, com[0], com[1]);
+            save(args, com[0], com[1]);
         })
         .taskSync(function () {
-            exec(configs);
+            exec(args);
         })
         .serial();
 };
