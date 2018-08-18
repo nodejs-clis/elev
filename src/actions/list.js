@@ -8,11 +8,10 @@
 
 'use strict';
 
-var path = require('blear.node.path');
 var console = require('blear.node.console');
 var string = require('blear.utils.string');
 
-var constant = require('../settings/constant');
+var getDomains = require('../utils/get-domains');
 
 /**
  * 列出域名
@@ -20,15 +19,13 @@ var constant = require('../settings/constant');
  * @param method
  */
 module.exports = function (args, method) {
-    var list = path.glob('*.json', {
-        srcDirname: constant.DOMAINS_DIRNAME
-    });
+    var list = getDomains();
     var length = list.length;
     var size = Math.max(length.toString().length, 2);
 
-    list = list.map(function (filename, index) {
+    list = list.map(function (domain, index) {
         var key = string.padStart(index + 1, size, '0');
-        return key + '. ' + path.basename(filename).replace(/\.json$/i, '');
+        return key + '. ' + domain;
     });
     console.logWithTime('当前已配置的域名');
     console.log(list.join('\n'));

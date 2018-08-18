@@ -12,43 +12,70 @@ var spawn = require('child_process').spawn;
 var fse = require('fs-extra');
 var date = require('blear.utils.date');
 var path = require('blear.node.path');
+var plan = require('blear.utils.plan');
+var cron = require('node-cron');
 
 var constant = require('../settings/constant');
+var getDomains = require('../utils/get-domains');
 
-setInterval(function () {
+cron.schedule('* * * * *', function () {
     var filename = date.format('YYYYMMDD');
-    var filepath = path.join(constant.LOGS_DIRNAME, filename + '.log');
+    var logFile = path.join(constant.LOGS_DIRNAME, filename + '.log');
 
     try {
-        fse.ensureFileSync(filepath);
+        fse.ensureFileSync(logFile);
     } catch (err) {
         // ignore
     }
 
-    spawn(
+    var domains = getDomains();
+
+    plan
+        .taskSync(function () {
+
+        })
+        .each(domains, function (index, domain, next) {
+            enslave(logFile, index, domain, next);
+        })
+        .serial();
+});
+
+process.on('SIGINT', function () {
+    process.exit(1);
+});
+
+// ==================================
+
+/**
+ * 奴役
+ * @param logFile
+ * @param index
+ * @param domain
+ * @param callback
+ */
+function enslave (logFile, index, domain, callback) {
+    var child = spawn(
         process.execPath,
         [
             require.resolve('./slave.js'),
-            'a',
-            'b',
-            'c'
+            index,
+            domain
         ],
         {
             stdio: [
                 // stdio
                 'ignore',
                 // stdout
-                fse.openSync(filepath, 'a'),
+                fse.openSync(logFile, 'a'),
                 // stderr
-                fse.openSync(filepath, 'a')
+                fse.openSync(logFile, 'a')
             ],
             env: process.env,
             cwd: process.cwd()
         }
     );
-}, 1000);
 
-process.on('SIGINT', function () {
-    process.exit(1);
-});
-
+    child.on('close', function (exitCode) {
+        callback();
+    });
+}
