@@ -141,7 +141,14 @@ exports.stop = function () {
     }
 
     console.logWithTime('正在停止定时任务', info.workerPid);
-    process.kill(info.workerPid, 'SIGINT');
+
+    try {
+        process.kill(info.workerPid, 'SIGINT');
+    } catch (err) {
+        console.errorWithTime('定时任务信号异常，请手动检查');
+        console.errorWithTime(err.message);
+    }
+
     removeWorkerInfo();
     console.logWithTime('定时任务已停止');
 };

@@ -19,10 +19,10 @@ exports.DOMAINS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'domains');
 // 日志目录
 exports.LOGS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'logs');
 
-// 定时任务文件名
+// 定时任务文件路径
 exports.CRON_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'cron.json');
 
-// 子进程 PID 文件名
+// 子进程配置文件路径
 exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME,'worker.json');
 
 //  At 3:00 AM, every 20 days
