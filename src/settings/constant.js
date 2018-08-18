@@ -23,4 +23,4 @@ exports.CRON_FILENAME = 'cron.json';
 exports.CRON_SCHEDULE = '0 0 3 1/20 * ? *';
 
 // 子进程 PID 文件名
-exports.PID_FILENAME = '.pid';
+exports.WORKER_FILENAME = 'worker.json';

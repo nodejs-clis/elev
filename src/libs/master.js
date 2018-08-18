@@ -16,21 +16,19 @@ var number = require('blear.utils.number');
 
 var constant = require('../settings/constant');
 
-var pidFile = path.join(
+var workerFile = path.join(
     constant.CONFIGS_DIRNAME,
-    constant.PID_FILENAME
+    constant.WORKER_FILENAME
 );
 
 
 /**
- * 确保有一个 worker 来做定时任务，
- * 先判断有没有 pid，如果没有则创建，
- * 如果有，则忽略
+ * 启动 worker
  */
-exports.ensure = function () {
-    var pid = getWorkerPid();
+exports.start = function () {
+    var info = getWorkerInfo();
 
-    if (pid !== 0) {
+    if (info !== null) {
         return;
     }
 
@@ -53,20 +51,29 @@ exports.ensure = function () {
     );
 
     child.unref();
-    setWorkerPid(child.pid);
+    setWorkerInfo(child.pid);
 };
 
 /**
- * 放弃 worker
+ * 状态 worker
+ * @returns {null | object}
  */
-exports.drop = function () {
-    var pid = getWorkerPid();
+exports.status = function () {
+    return getWorkerInfo();
+};
 
-    if (pid === 0) {
+/**
+ * 停止 worker
+ */
+exports.stop = function () {
+    var info = getWorkerInfo();
+
+    if (info === null) {
         return;
     }
 
-    process.kill(pid, 'SIGINT');
+    process.kill(info.pid, 'SIGINT');
+    removeWorkerInfo();
 };
 
 
@@ -76,16 +83,15 @@ exports.drop = function () {
  * 获取 worker 进程的 pid
  * @returns {*}
  */
-function getWorkerPid() {
-    if (!path.isExist(pidFile)) {
-        return 0;
+function getWorkerInfo() {
+    if (!path.isExist(workerFile)) {
+        return null;
     }
 
     try {
-        var pid = fse.readFileSync(pidFile);
-        return number.parseInt(pid, 0);
+        return fse.readJSONSync(workerFile) || null;
     } catch (err) {
-        return 0;
+        return null;
     }
 }
 
@@ -93,9 +99,26 @@ function getWorkerPid() {
  * 设置 worker pid
  * @param pid
  */
-function setWorkerPid(pid) {
+function setWorkerInfo(pid) {
     try {
-        fse.outputFileSync(pidFile, pid, 'utf8');
+        fse.writeJSONSync(workerFile, {
+            pid: pid,
+            masterPid: process.pid,
+            startTime: new Date().toString(),
+            workTimes: 0
+        });
+    } catch (err) {
+        // ignore
+    }
+}
+
+
+/**
+ * 移除 worker info
+ */
+function removeWorkerInfo() {
+    try {
+        fse.removeSync(workerFile);
     } catch (err) {
         // ignore
     }

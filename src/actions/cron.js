@@ -8,6 +8,7 @@
 
 'use strict';
 
+var cli = require('blear.node.cli');
 
 /**
  * 定时任务相关
@@ -16,7 +17,7 @@
  * @returns {*}
  */
 module.exports = function (args, method) {
-
+    cli.help('cron');
 };
 
 
