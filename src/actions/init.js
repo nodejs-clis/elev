@@ -12,7 +12,7 @@ var console = require('blear.node.console');
 var path = require('blear.node.path');
 var fse = require('fs-extra');
 
-var constant = require('./constant');
+var constant = require('../constant');
 
 /**
  * 生成配置文件

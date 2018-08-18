@@ -30,6 +30,6 @@ exports.options = {
     }
 };
 
-exports.action = require('../src/visa');
+exports.action = require('../src/actions/visa');
 
 

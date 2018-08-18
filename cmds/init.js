@@ -100,6 +100,6 @@ exports.options = {
     }
 };
 
-exports.action = require('../src/init');
+exports.action = require('../src/actions/init');
 
 
