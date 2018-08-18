@@ -25,6 +25,6 @@ exports.options = {
     }
 };
 
-exports.action = require('../src/actions/cron');
+exports.action = require('../actions/cron');
 
 

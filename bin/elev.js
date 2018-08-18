@@ -16,9 +16,9 @@ cli
     .command()
     .versioning()
     .helper()
-    .command(require('../cmds/init'))
-    .command(require('../cmds/visa'))
-    .command(require('../cmds/cron'))
+    .command(require('../src/cmds/init'))
+    .command(require('../src/cmds/visa'))
+    .command(require('../src/cmds/cron'))
     .parse({
         bin: 'lev',
         package: require('../package.json')
