@@ -27,7 +27,7 @@ exports.start = function () {
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
-        console.errorWithTime('workerPid', info.workerPid);
+        console.errorWithTime('daemonPid', info.daemonPid);
         console.errorWithTime('startTime', info.startTime);
         return;
     }
@@ -74,7 +74,7 @@ exports.status = function () {
     }
 
     var table = [
-        ['workerPid', info.workerPid],
+        ['daemonPid', info.daemonPid],
         ['masterPid', info.masterPid],
         ['startTime', info.startTime],
         ['workTimes', info.workTimes]
@@ -99,11 +99,16 @@ exports.status = function () {
  * 展示某次 work 记录
  * @param index
  */
-exports.show = function (index) {
+exports.work = function (index) {
     var info = getWorkerInfo();
 
+    if (index === undefined) {
+        console.errorWithTime('请指定 worker index');
+        return;
+    }
+
     if (info === null) {
-        console.logWithTime('当前暂无定时任务在运行');
+        console.errorWithTime('当前暂无定时任务在运行');
         return;
     }
 
@@ -116,9 +121,14 @@ exports.show = function (index) {
     }
 
     var table = [
-        ['workerPid', info.workerPid],
+        ['masterPid', info.masterPid],
+        ['daemonPid', info.daemonPid],
+        ['workerPid', history.workerPid],
         ['workIndex', index],
-        ['startTime', history.startTime]
+        ['startTime', history.startTime],
+        ['endTime', history.endTime],
+        ['domain', history.domain],
+        ['error', history.error]
     ];
 
     console.table(table, {
@@ -140,10 +150,10 @@ exports.stop = function () {
         return;
     }
 
-    console.logWithTime('正在停止定时任务', info.workerPid);
+    console.logWithTime('正在停止定时任务', info.daemonPid);
 
     try {
-        process.kill(info.workerPid, 'SIGINT');
+        process.kill(info.daemonPid, 'SIGINT');
     } catch (err) {
         console.errorWithTime('定时任务信号异常，请手动检查');
         console.errorWithTime(err.message);
@@ -178,7 +188,7 @@ function getWorkerInfo() {
  */
 function setWorkerInfo(pid) {
     var info = {
-        workerPid: pid,
+        daemonPid: pid,
         masterPid: process.pid,
         startTime: new Date().toString(),
         workTimes: 0,
@@ -190,13 +200,13 @@ function setWorkerInfo(pid) {
         fse.writeJSONSync(constant.WORKER_FILEPATH, info);
     } catch (err) {
         console.errorWithTime('定时任务配置文件保存失败，无法被 elev 自动管理，请手动停止');
-        console.errorWithTime('workerPid', info.pid);
+        console.errorWithTime('daemonPid', info.pid);
         console.errorWithTime(err.message);
         return null;
     }
 
     console.infoWithTime('定时任务启动成功');
-    console.infoWithTime('workerPid', info.workerPid);
+    console.infoWithTime('daemonPid', info.daemonPid);
     console.infoWithTime('startTime', info.startTime);
     return info;
 }

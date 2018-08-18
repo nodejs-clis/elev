@@ -41,7 +41,7 @@ later.setInterval(function () {
 
     plan
         .each(getDomains(), function (index, domain, next) {
-            enslave(logFile, domain, next);
+            assignWork(logFile, domain, next);
         })
         .serial();
 }, sched);
@@ -53,12 +53,12 @@ process.on('SIGINT', function () {
 // ==================================
 
 /**
- * 奴役
+ * 分配工作
  * @param logFile
  * @param domain
  * @param callback
  */
-function enslave(logFile, domain, callback) {
+function assignWork(logFile, domain, callback) {
     var child = spawn(
         process.execPath,
         [

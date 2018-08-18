@@ -23,9 +23,9 @@ var constant = require('../settings/constant');
 // ]
 var args = process.argv.slice(2);
 var domain = args[0];
-var workerPid = number.parseInt(args[1], 0);
+var daemonPid = number.parseInt(args[1], 0);
 var startDate = new Date();
-var slavePid = process.pid;
+var workerPid = process.pid;
 
 process.env[constant.SLAVE_ENV] = true;
 visa(domain, function (err) {
@@ -34,8 +34,8 @@ visa(domain, function (err) {
         domain: domain,
         startTime: startDate.toString(),
         endTime: endDate.toString(),
+        daemonPid: daemonPid,
         workerPid: workerPid,
-        slavePid: slavePid,
         error: err ? err.message : ''
     };
 

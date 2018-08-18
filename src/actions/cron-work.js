@@ -17,5 +17,5 @@ var master = require('../libs/master');
  * @returns {*}
  */
 module.exports = function (args, params) {
-    master.show(params[0]);
+    master.work(params[0]);
 };

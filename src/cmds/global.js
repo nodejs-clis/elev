@@ -13,7 +13,8 @@ var cli = require('/Users/cloudcome/development/github-blearjs/blear.node.cli');
 cli
     .command()
     .versioning()
-    .helper();
+    .helper()
+    .action(cli.help);
 
 
 

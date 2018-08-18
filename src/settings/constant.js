@@ -23,7 +23,7 @@ exports.LOGS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'logs');
 exports.CRON_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'cron.json');
 
 // 子进程配置文件路径
-exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME,'worker.json');
+exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'worker.json');
 
 // 每月 1 日凌晨 3 点
 exports.CRON_SCHEDULE = '0 19 0 * *';
