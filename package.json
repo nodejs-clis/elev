@@ -32,7 +32,7 @@
   "dependencies": {
     "acme-client": "^2.0.0",
     "blear.classes.error": "^1.0.4",
-    "blear.node.cli": "^1.0.5",
+    "blear.node.cli": "^1.0.6",
     "blear.node.console": "^1.0.10",
     "blear.node.path": "^1.0.8",
     "blear.node.request": "^2.0.9",
