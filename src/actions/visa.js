@@ -11,9 +11,9 @@
 var plan = require('blear.utils.plan');
 var console = require('blear.node.console');
 
-var issue = require('../issue');
-var save = require('../save');
-var exec = require('../exec');
+var issue = require('../libs/issue');
+var save = require('../libs/save');
+var exec = require('../libs/exec');
 
 
 /**

@@ -14,7 +14,7 @@ var console = require('blear.node.console');
 var fse = require('fs-extra');
 var cron = require('node-cron');
 
-var constant = require('../constant');
+var constant = require('../libs/constant');
 var pkg = require('../../package');
 
 /**
