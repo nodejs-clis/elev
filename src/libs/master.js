@@ -1,5 +1,5 @@
 /**
- * 守护进程
+ * 守护进程（由 admin 创建）
  * @description 创建可以常驻的子进程用来执行定时任务
  * @author ydr.me
  * @create 2018-08-18 13:33
@@ -17,11 +17,6 @@ var array = require('blear.utils.array');
 var number = require('blear.utils.number');
 
 var constant = require('../settings/constant');
-
-var workerFile = path.join(
-    constant.CONFIGS_DIRNAME,
-    constant.WORKER_FILENAME
-);
 
 
 /**
@@ -159,12 +154,12 @@ exports.stop = function () {
  * @returns {*}
  */
 function getWorkerInfo() {
-    if (!path.isExist(workerFile)) {
+    if (!path.isExist(constant.WORKER_FILEPATH)) {
         return null;
     }
 
     try {
-        return fse.readJSONSync(workerFile) || null;
+        return fse.readJSONSync(constant.WORKER_FILEPATH) || null;
     } catch (err) {
         return null;
     }
@@ -185,7 +180,7 @@ function setWorkerInfo(pid) {
     };
 
     try {
-        fse.writeJSONSync(workerFile, info);
+        fse.writeJSONSync(constant.WORKER_FILEPATH, info);
     } catch (err) {
         console.errorWithTime('定时任务配置文件保存失败，无法被 elev 自动管理，请手动停止');
         console.errorWithTime('pid', pid);
@@ -205,7 +200,7 @@ function setWorkerInfo(pid) {
  */
 function removeWorkerInfo() {
     try {
-        fse.removeSync(workerFile);
+        fse.removeSync(constant.WORKER_FILEPATH);
     } catch (err) {
         // ignore
     }

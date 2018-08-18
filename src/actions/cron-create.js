@@ -23,8 +23,7 @@ var pkg = require('../../package');
  */
 module.exports = function (args) {
     var domainFile = path.join(
-        constant.CONFIGS_DIRNAME,
-        constant.DOMAIN_FOLDER,
+        constant.DOMAINS_DIRNAME,
         args.domain + '.json'
     );
 
@@ -37,16 +36,11 @@ module.exports = function (args) {
         return process.exit(1);
     }
 
-    var cronFile = path.join(
-        constant.CONFIGS_DIRNAME,
-        constant.CRON_FILENAME
-    );
-
     console.logWithTime('读取定时任务配置文件');
-    console.logWithTime(cronFile);
+    console.logWithTime(constant.CRON_FILEPATH);
 
     try {
-        var json = fse.readJSONSync(cronFile);
+        var json = fse.readJSONSync(constant.CRON_FILEPATH);
     } catch (err) {
         json = {};
     }

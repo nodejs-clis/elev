@@ -21,7 +21,7 @@ var constant = require('../settings/constant');
  */
 module.exports = function (args, method) {
     var list = path.glob('*.json', {
-        srcDirname: path.join(constant.CONFIGS_DIRNAME, constant.DOMAIN_FOLDER)
+        srcDirname: constant.DOMAINS_DIRNAME
     });
     var length = list.length;
     var size = Math.max(length.toString().length, 2);

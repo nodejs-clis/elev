@@ -1,5 +1,5 @@
 /**
- * worker
+ * worker 进程（由 master 进程创建）
  * @author ydr.me
  * @create 2018-08-18 13:53
  * @update 2018-08-18 13:53
@@ -8,12 +8,23 @@
 
 'use strict';
 
+var spawn = require('child_process').spawn;
+var fs = require('fs');
+
 setInterval(function () {
-    console.log(Date.now(), Math.random())
+
+    spawn(
+        process.execPath,
+        [],
+        {
+
+        }
+    );
+
+
 }, 1000);
 
 process.on('SIGINT', function () {
-    console.log('监听到 SIGINT 信号，进程退出');
     process.exit(1);
 });
 
