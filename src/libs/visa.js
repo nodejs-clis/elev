@@ -43,7 +43,7 @@ module.exports = function (domain, callback) {
     }
 
     try {
-        var configs = JSON.parse(fse.readFileSync(configFile, 'utf8'));
+        var configs = fse.readJSONSync(configFile);
     } catch (err) {
         console.errorWithTime('配置文件读取失败');
         console.errorWithTime(err.message);

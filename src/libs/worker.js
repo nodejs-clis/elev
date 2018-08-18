@@ -63,7 +63,8 @@ function enslave(logFile, domain, callback) {
         process.execPath,
         [
             require.resolve('./slave.js'),
-            domain
+            domain,
+            process.pid
         ],
         {
             stdio: [
