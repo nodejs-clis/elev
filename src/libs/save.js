@@ -17,8 +17,9 @@ var console = require('blear.node.console');
  * @param config
  * @param keyBf
  * @param pemBf
+ * @param callback
  */
-module.exports = function (config, keyBf, pemBf) {
+module.exports = function (config, keyBf, pemBf, callback) {
     var file = path.join(config.saveDirname, config.certificateKeyFileName);
 
     console.logWithTime(file);
@@ -31,7 +32,7 @@ module.exports = function (config, keyBf, pemBf) {
     } catch (err) {
         console.errorWithTime('文件保存失败');
         console.errorWithTime(err.message);
-        process.exit(1);
+        return callback(err);
     }
 
     file = path.join(config.saveDirname, config.certificateCertFileName);
@@ -45,8 +46,10 @@ module.exports = function (config, keyBf, pemBf) {
     } catch (err) {
         console.errorWithTime('文件保存失败');
         console.errorWithTime(err.message);
-        process.exit(1);
+        return callback(err);
     }
+
+    callback();
 };
 
 

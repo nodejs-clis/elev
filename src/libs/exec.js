@@ -14,18 +14,19 @@ var shell = require('shelljs');
 /**
  * 执行命令
  * @param configs
+ * @param callback
  */
-module.exports = function (configs) {
+module.exports = function (configs, callback) {
     var command = configs.afterSaveCommand;
 
     console.logWithTime(command);
 
     if (shell.exec(command).code !== 0) {
         console.errorWithTime('命令执行失败，请手动执行后续操作');
-        return process.exit(1);
+        return callback(new Error('命令执行失败'));
     }
 
     console.logWithTime('命令执行成功');
-    console.infoWithTime('Let’s Encrypt 证书签发完毕');
+    callback();
 };
 

@@ -15,18 +15,11 @@ var path = require('blear.node.path');
 cli
     .command('visa', '签发一张 Let’s Encrypt 泛域名证书')
     .helper()
-    .option('config', {
-        alias: 'c',
+    .option('domain', {
+        alias: 'd',
         required: true,
         type: 'string',
-        transform: function (val, args, method, methods) {
-            if (!val) {
-                return '';
-            }
-
-            return path.resolve(val);
-        },
-        describe: '指定配置文件'
+        describe: '指定签发域名'
     })
     .action(require('../actions/visa'));
 

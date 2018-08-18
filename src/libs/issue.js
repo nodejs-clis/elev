@@ -31,6 +31,7 @@ module.exports = issue;
  * @param configs.debug
  * @param configs.domain
  * @param configs.dnsRefreshSeconds
+ * @param callback
  */
 function issue(configs, callback) {
     var certificateKey = null;
@@ -110,7 +111,7 @@ function issue(configs, callback) {
         .catch(function (err) {
             console.errorWithTime('Let’s Encrypt 证书颁发失败');
             console.errorWithTime(err.message);
-            process.exit(1);
+            callback(err);
         });
 
 
@@ -141,21 +142,17 @@ function issue(configs, callback) {
             })
             .taskPromise(function () {
                 console.logWithTime('检查验证结果');
-                console.loading();
                 return client.verifyChallenge(authz, challenge);
             })
             .taskPromise(function () {
-                console.loadingEnd();
                 console.logWithTime('提交验证结果');
                 return client.completeChallenge(challenge);
             })
             .taskPromise(function () {
                 console.logWithTime('等待验证状态');
-                console.loading();
                 return client.waitForValidStatus(challenge);
             })
             .task(function (next) {
-                console.loadingEnd();
                 console.logWithTime('验证成功');
                 finshChallenge(authz, challenge, next);
             })

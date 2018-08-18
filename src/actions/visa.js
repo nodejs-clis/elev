@@ -14,12 +14,12 @@ var visa = require('../libs/visa');
 /**
  * 签证
  * @param args
- * @param args.config
- * @param args.debug
- * @param callback
+ * @param args.domain
  */
-module.exports = function (args, callback) {
-    visa(require(args.config));
+module.exports = function (args) {
+    visa(args.domain, function () {
+        // ignore
+    });
 };
 
 

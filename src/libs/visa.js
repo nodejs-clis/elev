@@ -1,5 +1,5 @@
 /**
- * 文件描述
+ * 根据配置文件进行签发
  * @author ydr.me
  * @create 2018-08-18 19:31
  * @update 2018-08-18 19:31
@@ -10,31 +10,70 @@
 
 var plan = require('blear.utils.plan');
 var console = require('blear.node.console');
+var path = require('blear.node.path');
+var fse = require('fs-extra');
 
+var constant = require('../settings/constant');
 var issue = require('./issue');
 var save = require('./save');
 var exec = require('./exec');
 
-module.exports = function (configs) {
+/**
+ * 根据域名进行签发
+ * @param domain
+ * @param callback
+ */
+module.exports = function (domain, callback) {
+    var configFile = path.join(constant.DOMAINS_DIRNAME, domain + '.json');
+    var ending = function () {
+        console.infoWithTime('Let’s Encrypt 证书签发结束');
+        console.infoWithTime('--------------------------');
+    };
+
+    console.infoWithTime('--------------------------');
+    console.infoWithTime('Let’s Encrypt 证书签发开始');
+    console.logWithTime('签发域名', domain);
+    console.logWithTime('开始读取配置文件');
+    console.logWithTime(configFile);
+
+    if (!path.isExist(configFile)) {
+        console.errorWithTime('配置文件不存在');
+        ending();
+        return callback(new Error('配置文件不存在'));
+    }
+
+    try {
+        var configs = fse.outputJSONSync(configFile);
+    } catch (err) {
+        console.errorWithTime('配置文件读取失败');
+        console.errorWithTime(err.message);
+        ending();
+        return callback(err);
+    }
+
     if (configs.debug) {
         console.logWithTime('配置信息');
         console.logWithTime(configs);
     }
 
     plan
+        .taskSync(function () {
+            console.loading();
+        })
         .task(function (next) {
             issue(configs, next);
         })
-        .taskSync(function (com) {
-            save(configs, com[0], com[1]);
+        .task(function (next, com) {
+            save(configs, com[0], com[1], next);
+        })
+        .task(function (next) {
+            exec(configs, next);
         })
         .taskSync(function () {
-            exec(configs);
+            console.loadingEnd();
+            ending();
         })
-        .taskSync(function () {
-            console.infoWithTime('证书签发完毕');
-        })
-        .serial();
+        .serial(callback);
 };
 
 
