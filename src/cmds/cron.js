@@ -8,23 +8,18 @@
 
 'use strict';
 
-var path = require('blear.node.path');
+var cli = require('blear.node.cli');
 
-exports.command = 'cron';
-
-exports.describe = '创建定时任务';
-
-exports.helper = true;
-
-exports.options = {
-    domain: {
+cli
+    .command('cron', '创建定时任务')
+    .helper()
+    .method('create')
+    .option('domain', {
         alias: 'd',
         required: true,
         type: 'string',
         describe: '指定域名'
-    }
-};
-
-exports.action = require('../actions/cron');
+    })
+    .action(require('../actions/cron'));
 
 

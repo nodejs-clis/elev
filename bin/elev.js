@@ -9,19 +9,14 @@
 
 var cli = require('blear.node.cli');
 
-cli
-    .banner(
-        'elev'
-    )
-    .command()
-    .versioning()
-    .helper()
-    .command(require('../src/cmds/init'))
-    .command(require('../src/cmds/visa'))
-    .command(require('../src/cmds/cron'))
-    .parse({
-        bin: 'lev',
-        package: require('../package.json')
-    });
+require('../src/cmds/banner');
+require('../src/cmds/global');
+require('../src/cmds/init');
+require('../src/cmds/visa');
+require('../src/cmds/cron');
+cli.parse({
+    bin: 'lev',
+    package: require('../package.json')
+});
 
 
