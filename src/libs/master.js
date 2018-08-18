@@ -1,6 +1,6 @@
 /**
- * 守护进程（由 admin 创建）
- * @description 创建可以常驻的子进程用来执行定时任务
+ * 上帝进程
+ * @description 创建可以常驻的子进程（daemon）用来执行定时任务
  * @author ydr.me
  * @create 2018-08-18 13:33
  * @update 2018-08-18 13:33
@@ -37,7 +37,7 @@ exports.start = function () {
     try {
         var child = spawn(
             process.execPath,
-            [require.resolve('./worker.js')],
+            [require.resolve('./daemon.js')],
             {
                 stdio: [
                     // stdio
@@ -183,9 +183,7 @@ function setWorkerInfo(pid) {
         startTime: new Date().toString(),
         workTimes: 0,
         // 记录工作历史，包含启动时间，域名列表等信息
-        workHistories: [],
-        slaveTimes: 0,
-        slaveHistories: []
+        workHistories: []
     };
 
     try {

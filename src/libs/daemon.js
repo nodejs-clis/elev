@@ -1,5 +1,5 @@
 /**
- * worker 进程（由 master 进程创建）
+ * 守护（daemon）进程（由 god 进程创建并管理）
  * @author ydr.me
  * @create 2018-08-18 13:53
  * @update 2018-08-18 13:53
@@ -62,7 +62,7 @@ function enslave(logFile, domain, callback) {
     var child = spawn(
         process.execPath,
         [
-            require.resolve('./slave.js'),
+            require.resolve('./worker.js'),
             domain,
             process.pid
         ],

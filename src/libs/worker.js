@@ -1,5 +1,5 @@
 /**
- * 奴隶进程（由 worker 进程创建）
+ * 工作（worker）进程（由 daemon 创建并管理）
  * @author ydr.me
  * @create 2018-08-18 18:30
  * @update 2018-08-18 18:30
@@ -14,7 +14,6 @@ var number = require('blear.utils.number');
 
 var visa = require('./visa');
 var constant = require('../settings/constant');
-var jason = require('../utils/jason');
 
 // [
 //   node
@@ -51,8 +50,8 @@ visa(domain, function (err) {
         return process.exit(1);
     }
 
-    workerInfo.slaveHistories.push(history);
-    workerInfo.slaveTimes++;
+    workerInfo.workHistories.push(history);
+    workerInfo.workTimes++;
     console.logWithTime('写入 worker 配置文件');
 
     try {
