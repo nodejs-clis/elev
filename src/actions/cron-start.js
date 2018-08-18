@@ -8,11 +8,14 @@
 
 'use strict';
 
+var master = require('../libs/master');
+
 /**
  * 启动定时任务
  * @param args
  * @returns {*}
  */
 module.exports = function (args) {
-
+    master.start();
+    master.status();
 };

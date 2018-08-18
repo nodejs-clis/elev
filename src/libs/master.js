@@ -12,7 +12,7 @@
 var fse = require('fs-extra');
 var spawn = require('child_process').spawn;
 var path = require('blear.node.path');
-var number = require('blear.utils.number');
+var console = require('blear.node.console');
 
 var constant = require('../settings/constant');
 
@@ -56,10 +56,26 @@ exports.start = function () {
 
 /**
  * 状态 worker
- * @returns {null | object}
  */
 exports.status = function () {
-    return getWorkerInfo();
+    var info = getWorkerInfo();
+
+    if (info === null) {
+        console.errorWithTime('当前暂无 elev 定时任务在运行');
+        return;
+    }
+
+    console.table([
+        ['pid', info.pid],
+        ['masterPid', info.masterPid],
+        ['startTime', info.startTime],
+        ['workTimes', info.workTimes]
+    ], {
+        border: true,
+        colors: [
+            'green'
+        ]
+    });
 };
 
 /**
