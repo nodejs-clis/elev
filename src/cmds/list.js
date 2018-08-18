@@ -8,7 +8,7 @@
 
 'use strict';
 
-var cli = require('blear.node.cli');
+var cli = require('/Users/cloudcome/development/github-blearjs/blear.node.cli');
 
 cli
     .command('list', '列出当前已配置的域名')

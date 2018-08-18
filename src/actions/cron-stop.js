@@ -8,11 +8,13 @@
 
 'use strict';
 
+var master = require('../libs/master');
+
 /**
  * 停止定时任务
  * @param args
  * @returns {*}
  */
 module.exports = function (args) {
-
+    master.stop();
 };

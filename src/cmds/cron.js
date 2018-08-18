@@ -8,7 +8,7 @@
 
 'use strict';
 
-var cli = require('blear.node.cli');
+var cli = require('/Users/cloudcome/development/github-blearjs/blear.node.cli');
 
 cli
     .command('cron', '定时任务相关')
@@ -27,10 +27,12 @@ cli
     .method('start', '启动定时任务，默认从此刻开始，每间隔 20 天的凌晨 3 点启动一次')
     .method('status', '查看定时任务状态')
     .method('stop', '停止定时任务')
+    .method('show', '查看定时任务工作记录')
 
     .action(require('../actions/cron'))
     .action('create', require('../actions/cron-create'))
     .action('start', require('../actions/cron-start'))
     .action('status', require('../actions/cron-status'))
-    .action('stop', require('../actions/cron-stop'));
+    .action('stop', require('../actions/cron-stop'))
+    .action('show', require('../actions/cron-show'));
 
