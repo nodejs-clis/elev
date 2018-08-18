@@ -32,11 +32,12 @@
   "dependencies": {
     "acme-client": "^2.0.0",
     "blear.classes.error": "^1.0.4",
-    "blear.node.cli": "^1.0.6",
+    "blear.node.cli": "^1.0.7",
     "blear.node.console": "^1.0.10",
     "blear.node.path": "^1.0.8",
     "blear.node.request": "^2.0.9",
     "blear.utils.array": "^1.0.12",
+    "blear.utils.number": "^1.0.3",
     "blear.utils.object": "^1.0.14",
     "blear.utils.plan": "^2.2.1",
     "blear.utils.querystring": "^1.0.5",

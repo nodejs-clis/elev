@@ -19,8 +19,8 @@ exports.DOMAIN_FOLDER = 'domains';
 // 定时任务文件名
 exports.CRON_FILENAME = 'cron.json';
 
-//  At 4:00 AM, every 20 days
-exports.CRON_SCHEDULE = '0 0 4 1/20 * ? *';
+//  At 3:00 AM, every 20 days
+exports.CRON_SCHEDULE = '0 0 3 1/20 * ? *';
 
 // 子进程 PID 文件名
-exports.CHILD_PROCESS_PID_FILENAME = '.pid';
+exports.PID_FILENAME = '.pid';
