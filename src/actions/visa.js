@@ -22,9 +22,8 @@ var exec = require('../libs/exec');
  * @param args.config
  * @param args.debug
  * @param method
- * @param methods
  */
-module.exports = function (args, method, methods) {
+module.exports = function (args, method) {
     args = require(args.config);
 
     if (args.debug) {

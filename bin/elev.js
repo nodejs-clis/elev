@@ -12,6 +12,7 @@ var cli = require('blear.node.cli');
 require('../src/cmds/banner');
 require('../src/cmds/global');
 require('../src/cmds/init');
+require('../src/cmds/list');
 require('../src/cmds/visa');
 require('../src/cmds/cron');
 cli.parse({

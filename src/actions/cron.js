@@ -21,10 +21,9 @@ var pkg = require('../../package');
  * 配置定时任务
  * @param args
  * @param method
- * @param methods
  * @returns {*}
  */
-module.exports = function (args, method, methods) {
+module.exports = function (args, method) {
     var domainFile = path.join(
         constant.CONFIGS_DIRNAME,
         constant.DOMAIN_FOLDER,

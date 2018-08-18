@@ -20,9 +20,8 @@ var constant = require('../settings/constant');
  * @param args.debug
  * @param args.domain
  * @param method
- * @param methods
  */
-module.exports = function (args, method, methods) {
+module.exports = function (args, method) {
     var json = JSON.stringify(args, null, 4) + '\n';
     var dirname = process.env.HOME;
     var file = path.join(
