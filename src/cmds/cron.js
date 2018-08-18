@@ -20,6 +20,7 @@ cli
     .option('domain', {
         alias: 'd',
         type: 'string',
+        required: true,
         describe: '指定域名'
     })
 
@@ -27,6 +28,9 @@ cli
     .method('status', '查看定时任务状态')
     .method('stop', '停止定时任务')
 
-    .action(require('../actions/cron'));
-
+    .action(require('../actions/cron'))
+    .action('create', require('../actions/cron-create'))
+    .action('start', require('../actions/cron-start'))
+    .action('status', require('../actions/cron-status'))
+    .action('stop', require('../actions/cron-stop'));
 
