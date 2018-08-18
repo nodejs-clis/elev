@@ -19,16 +19,16 @@ var constant = require('../settings/constant');
  * @param args
  * @param args.debug
  * @param args.domain
+ * @param args.force
  * @param method
  */
 module.exports = function (args, method) {
-    var json = JSON.stringify(args, null, 4) + '\n';
     var file = path.join(
         constant.DOMAINS_DIRNAME,
         args.domain + '.json'
     );
 
-    if (path.isExist(file)) {
+    if (path.isExist(file) && !args.force) {
         console.errorWithTime(file);
         console.errorWithTime('配置文件已存在，如需覆盖请添加 `--force, -f` 参数');
         return;
@@ -42,6 +42,8 @@ module.exports = function (args, method) {
     console.infoWithTime(file);
 
     try {
+        delete args.force;
+        var json = JSON.stringify(args, null, 4) + '\n';
         fse.outputFileSync(file, json);
         console.infoWithTime('配置文件生成成功');
     } catch (err) {

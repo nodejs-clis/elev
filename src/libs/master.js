@@ -183,14 +183,16 @@ function setWorkerInfo(pid) {
         startTime: new Date().toString(),
         workTimes: 0,
         // 记录工作历史，包含启动时间，域名列表等信息
-        workHistories: []
+        workHistories: [],
+        slaveTimes: 0,
+        slaveHistories: []
     };
 
     try {
         fse.writeJSONSync(constant.WORKER_FILEPATH, info);
     } catch (err) {
         console.errorWithTime('定时任务配置文件保存失败，无法被 elev 自动管理，请手动停止');
-        console.errorWithTime('pid', pid);
+        console.errorWithTime('workerPid', info.pid);
         console.errorWithTime(err.message);
         return null;
     }

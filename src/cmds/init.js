@@ -95,4 +95,9 @@ cli
         describe: '证书保存后的执行命令，请确保有执行权限',
         type: 'string'
     })
+    .option('force', {
+        alias: 'f',
+        describe: '强制覆盖已存在的配置文件',
+        type: 'boolean'
+    })
     .action(require('../actions/init'));

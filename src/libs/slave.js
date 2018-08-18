@@ -51,8 +51,8 @@ visa(domain, function (err) {
         return process.exit(1);
     }
 
-    workerInfo.workHistories.push(history);
-    workerInfo.workTimes++;
+    workerInfo.slaveHistories.push(history);
+    workerInfo.slaveTimes++;
     console.logWithTime('写入 worker 配置文件');
 
     try {
