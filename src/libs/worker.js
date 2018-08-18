@@ -19,7 +19,7 @@ var constant = require('../settings/constant');
 var getDomains = require('../utils/get-domains');
 
 // 每月 1 日凌晨 3 点
-var sched = later.parse.cron('0 19 0 * *', false);
+var sched = later.parse.cron(constant.CRON_SCHEDULE, false);
 
 // 每 5 分钟
 var sched = later.parse.text('every 5 min');

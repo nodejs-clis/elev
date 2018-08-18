@@ -9,6 +9,7 @@
 'use strict';
 
 var visa = require('./visa');
+var constant = require('../settings/constant');
 
 // [
 //   node
@@ -18,5 +19,6 @@ var visa = require('./visa');
 var args = process.argv.slice(2);
 var domain = args[0];
 
+process.env[constant.SLAVE_ENV] = true;
 visa(domain);
 

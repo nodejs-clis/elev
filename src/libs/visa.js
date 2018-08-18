@@ -42,7 +42,7 @@ module.exports = function (domain) {
     }
 
     try {
-        var configs = fse.outputJSONSync(configFile);
+        var configs = JSON.parse(fse.readFileSync(configFile, 'utf8'));
     } catch (err) {
         console.errorWithTime('配置文件读取失败');
         console.errorWithTime(err.message);
@@ -56,9 +56,6 @@ module.exports = function (domain) {
     }
 
     plan
-        .taskSync(function () {
-            console.loading();
-        })
         .task(function (next) {
             issue(configs, next);
         })
@@ -68,11 +65,9 @@ module.exports = function (domain) {
         .task(function (next) {
             exec(configs, next);
         })
-        .taskSync(function () {
-            console.loadingEnd();
+        .serial(function () {
             ending();
-        })
-        .serial();
+        });
 };
 
 

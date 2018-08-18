@@ -16,6 +16,7 @@ var time = require('blear.utils.time');
 var acme = require('acme-client');
 
 var alidns = require('./alidns');
+var constant = require('../settings/constant');
 
 module.exports = issue;
 
@@ -142,17 +143,21 @@ function issue(configs, callback) {
             })
             .taskPromise(function () {
                 console.logWithTime('检查验证结果');
+                consoleLoading();
                 return client.verifyChallenge(authz, challenge);
             })
             .taskPromise(function () {
+                consoleLoadingEnd();
                 console.logWithTime('提交验证结果');
                 return client.completeChallenge(challenge);
             })
             .taskPromise(function () {
                 console.logWithTime('等待验证状态');
+                consoleLoading();
                 return client.waitForValidStatus(challenge);
             })
             .task(function (next) {
+                consoleLoadingEnd();
                 console.logWithTime('验证成功');
                 finshChallenge(authz, challenge, next);
             })
@@ -189,6 +194,10 @@ function issue(configs, callback) {
                         return next();
                     }
 
+                    if (process[constant.SLAVE_ENV]) {
+                        return;
+                    }
+
                     var remainTime = dnsVerifyWaitTime - timer.elapsedTime;
                     console.point('等待 DNS 记录生效，倒计时 ' + parseInt(remainTime / 1000) + ' 秒');
                 }, 1000, true);
@@ -216,5 +225,29 @@ function issue(configs, callback) {
                 callback();
             });
     }
+}
+
+
+// =================================
+/**
+ * 打印 loading
+ */
+function consoleLoading () {
+    if(process[constant.SLAVE_ENV]) {
+        return;
+    }
+
+    console.loading();
+}
+
+/**
+ * 打印 loading end
+ */
+function consoleLoadingEnd () {
+    if(process[constant.SLAVE_ENV]) {
+        return;
+    }
+
+    console.loadingEnd();
 }
 

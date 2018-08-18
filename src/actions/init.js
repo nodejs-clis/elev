@@ -28,6 +28,12 @@ module.exports = function (args, method) {
         args.domain + '.json'
     );
 
+    if (path.isExist(file)) {
+        console.errorWithTime(file);
+        console.errorWithTime('配置文件已存在，如需覆盖请添加 `--force, -f` 参数');
+        return;
+    }
+
     if (args.debug) {
         console.logWithTime('配置信息');
         console.logWithTime(args);

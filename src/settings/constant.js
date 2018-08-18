@@ -25,5 +25,7 @@ exports.CRON_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'cron.json');
 // 子进程配置文件路径
 exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME,'worker.json');
 
-//  At 3:00 AM, every 20 days
-exports.CRON_SCHEDULE = '0 0 3 1/20 * ? *';
+// 每月 1 日凌晨 3 点
+exports.CRON_SCHEDULE = '0 19 0 * *';
+
+exports.SLAVE_ENV = '__elev_slave_mode__';
