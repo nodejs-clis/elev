@@ -21,9 +21,8 @@ var exec = require('./exec');
 /**
  * 根据域名进行签发
  * @param domain
- * @param callback
  */
-module.exports = function (domain, callback) {
+module.exports = function (domain) {
     var configFile = path.join(constant.DOMAINS_DIRNAME, domain + '.json');
     var ending = function () {
         console.infoWithTime('Let’s Encrypt 证书签发结束');
@@ -39,7 +38,7 @@ module.exports = function (domain, callback) {
     if (!path.isExist(configFile)) {
         console.errorWithTime('配置文件不存在');
         ending();
-        return callback(new Error('配置文件不存在'));
+        return;
     }
 
     try {
@@ -48,7 +47,7 @@ module.exports = function (domain, callback) {
         console.errorWithTime('配置文件读取失败');
         console.errorWithTime(err.message);
         ending();
-        return callback(err);
+        return;
     }
 
     if (configs.debug) {
@@ -73,7 +72,7 @@ module.exports = function (domain, callback) {
             console.loadingEnd();
             ending();
         })
-        .serial(callback);
+        .serial();
 };
 
 

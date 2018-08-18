@@ -13,12 +13,26 @@ var fse = require('fs-extra');
 var date = require('blear.utils.date');
 var path = require('blear.node.path');
 var plan = require('blear.utils.plan');
-var cron = require('node-cron');
+var later = require('later');
 
 var constant = require('../settings/constant');
 var getDomains = require('../utils/get-domains');
 
-cron.schedule('* * * * *', function () {
+// 每月 1 日凌晨 3 点
+var sched = later.parse.cron('0 19 0 * *', false);
+
+// 每 5 分钟
+var sched = later.parse.text('every 5 min');
+
+// var list = later.schedule(sched).next(10);
+// list.forEach(function (d) {
+//     console.log(d, date.format('YYYY-MM-DD HH:mm:ss', d));
+// });
+
+
+
+
+later.setInterval(function () {
     var filename = date.format('YYYYMMDD');
     var logFile = path.join(constant.LOGS_DIRNAME, filename + '.log');
 
@@ -28,17 +42,12 @@ cron.schedule('* * * * *', function () {
         // ignore
     }
 
-    var domains = getDomains();
-
     plan
-        .taskSync(function () {
-
-        })
-        .each(domains, function (index, domain, next) {
-            enslave(logFile, index, domain, next);
+        .each(getDomains(), function (index, domain, next) {
+            enslave(logFile, domain, next);
         })
         .serial();
-});
+}, sched);
 
 process.on('SIGINT', function () {
     process.exit(1);
@@ -49,16 +58,14 @@ process.on('SIGINT', function () {
 /**
  * 奴役
  * @param logFile
- * @param index
  * @param domain
  * @param callback
  */
-function enslave (logFile, index, domain, callback) {
+function enslave(logFile, domain, callback) {
     var child = spawn(
         process.execPath,
         [
             require.resolve('./slave.js'),
-            index,
             domain
         ],
         {

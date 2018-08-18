@@ -17,9 +17,7 @@ var visa = require('../libs/visa');
  * @param args.domain
  */
 module.exports = function (args) {
-    visa(args.domain, function () {
-        // ignore
-    });
+    visa(args.domain);
 };
 
 
