@@ -21,8 +21,9 @@ var exec = require('./exec');
 /**
  * 根据域名进行签发
  * @param domain
+ * @param [callback]
  */
-module.exports = function (domain) {
+module.exports = function (domain, callback) {
     var configFile = path.join(constant.DOMAINS_DIRNAME, domain + '.json');
     var ending = function () {
         console.infoWithTime('Let’s Encrypt 证书签发结束');
@@ -57,7 +58,11 @@ module.exports = function (domain) {
 
     plan
         .task(function (next) {
-            issue(configs, next);
+            // issue(configs, next);
+            setTimeout(function () {
+                console.log('>>>>>>>>>模拟签证<<<<<<<<<');
+                next(null, [Buffer.from('123'), Buffer.from('456')]);
+            }, 1000);
         })
         .task(function (next, com) {
             save(configs, com[0], com[1], next);
@@ -65,8 +70,12 @@ module.exports = function (domain) {
         .task(function (next) {
             exec(configs, next);
         })
-        .serial(function () {
+        .serial(function (err) {
             ending();
+
+            if(callback) {
+                callback(err);
+            }
         });
 };
 

@@ -187,15 +187,16 @@ function issue(configs, callback) {
                 challenge._alidnsRecordId = recordId;
             })
             .task(function (next) {
+                if (process.env[constant.SLAVE_ENV]) {
+                    console.logWithTime('等待 DNS 记录生效，倒计时', configs.dnsRefreshSeconds, '秒');
+                    return;
+                }
+
                 var timer = time.setInterval(function () {
                     if (timer.elapsedTime > dnsVerifyWaitTime) {
                         time.clearInterval(timer);
                         console.pointEnd();
                         return next();
-                    }
-
-                    if (process[constant.SLAVE_ENV]) {
-                        return;
                     }
 
                     var remainTime = dnsVerifyWaitTime - timer.elapsedTime;
@@ -232,8 +233,8 @@ function issue(configs, callback) {
 /**
  * 打印 loading
  */
-function consoleLoading () {
-    if(process[constant.SLAVE_ENV]) {
+function consoleLoading() {
+    if (process.env[constant.SLAVE_ENV]) {
         return;
     }
 
@@ -243,8 +244,8 @@ function consoleLoading () {
 /**
  * 打印 loading end
  */
-function consoleLoadingEnd () {
-    if(process[constant.SLAVE_ENV]) {
+function consoleLoadingEnd() {
+    if (process.env[constant.SLAVE_ENV]) {
         return;
     }
 

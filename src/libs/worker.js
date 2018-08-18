@@ -21,16 +21,13 @@ var getDomains = require('../utils/get-domains');
 // 每月 1 日凌晨 3 点
 var sched = later.parse.cron(constant.CRON_SCHEDULE, false);
 
-// 每 5 分钟
-var sched = later.parse.text('every 5 min');
+// 每 10 分钟
+var sched = later.parse.text('every 1 min');
 
 // var list = later.schedule(sched).next(10);
 // list.forEach(function (d) {
 //     console.log(d, date.format('YYYY-MM-DD HH:mm:ss', d));
 // });
-
-
-
 
 later.setInterval(function () {
     var filename = date.format('YYYYMMDD');

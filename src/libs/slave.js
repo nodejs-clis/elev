@@ -20,5 +20,7 @@ var args = process.argv.slice(2);
 var domain = args[0];
 
 process.env[constant.SLAVE_ENV] = true;
-visa(domain);
+visa(domain, function (err) {
+
+});
 
