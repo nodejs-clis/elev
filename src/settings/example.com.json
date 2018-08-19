@@ -17,7 +17,7 @@
     "host": "",
     "port": 465,
     "secure": true,
-    "user": "username",
-    "pass": "password"
+    "user": "",
+    "pass": ""
   }
 }

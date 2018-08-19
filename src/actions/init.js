@@ -10,8 +10,8 @@
 
 var console = require('blear.node.console');
 var path = require('blear.node.path');
-var fse = require('fs-extra');
 var object = require('blear.utils.object');
+var typeis = require('blear.utils.typeis');
 
 var constant = require('../settings/constant');
 var defaults = require('../settings/example.com.json');
@@ -22,30 +22,56 @@ var domainConfigs = require('../utils/domain-configs');
  * @param args
  * @param args.debug
  * @param args.domain
+ * @param args.reference
  * @param args.force
  * @param method
  */
 module.exports = function (args, method) {
     var domain = args.domain;
-    var configs;
     var file = domainConfigs.file(domain);
-
-    try {
-        configs = domainConfigs.get(domain);
-    } catch (err) {
-        // ignore
-    }
+    var reference = null;
 
     console.logWithTime(file);
 
-    if (configs && !args.force) {
+    if (path.isExist(file) && !args.force) {
         console.errorWithTime('配置文件已存在，如需覆盖请添加 `--force, -f` 参数');
         return;
     }
 
+    // 参考配置
+    if (args.reference) {
+        try {
+            reference = domainConfigs.get(args.reference);
+        } catch (err) {
+            console.errorWithTime('参考配置文件获取失败');
+            console.errorWithTime(err.message);
+            return;
+        }
+    }
+
     try {
         delete args.force;
-        configs = object.assign(true, {}, defaults, args);
+        var configs = object.assign(true, {}, defaults, args);
+
+        if (reference) {
+            from(configs, reference, [
+                'dnsServerName',
+                'dnsServerAccessKey',
+                'dnsServerAccessSecret',
+                'saveDirname',
+                'afterSaveCommand'
+            ]);
+            from(configs.smtp, reference.smtp, [
+                'from',
+                'to',
+                'subject',
+                'host',
+                'port',
+                'user',
+                'pass'
+            ]);
+        }
+
         domainConfigs.set(args.domain, configs);
 
         if (args.debug) {
@@ -61,4 +87,18 @@ module.exports = function (args, method) {
     }
 };
 
+
+/**
+ * 来自
+ * @param a
+ * @param b
+ * @param list
+ */
+function from(a, b, list) {
+    list.forEach(function (item) {
+        if (a[item] === '') {
+            a[item] = b[item];
+        }
+    });
+}
 
