@@ -17,6 +17,7 @@ var constant = require('../settings/constant');
 var issue = require('./issue');
 var save = require('./save');
 var exec = require('./exec');
+var domainConfigs = require('../utils/domain-configs');
 
 /**
  * 根据域名进行签发
@@ -24,7 +25,6 @@ var exec = require('./exec');
  * @param [callback]
  */
 module.exports = function (domain, callback) {
-    var configFile = path.join(constant.DOMAINS_DIRNAME, domain + '.json');
     var ending = function () {
         console.infoWithTime('Let’s Encrypt 证书签发结束');
         console.infoWithTime('--------------------------');
@@ -34,16 +34,9 @@ module.exports = function (domain, callback) {
     console.infoWithTime('Let’s Encrypt 证书签发开始');
     console.logWithTime('签发域名', domain);
     console.logWithTime('开始读取配置文件');
-    console.logWithTime(configFile);
-
-    if (!path.isExist(configFile)) {
-        console.errorWithTime('配置文件不存在');
-        ending();
-        return;
-    }
 
     try {
-        var configs = fse.readJSONSync(configFile);
+        var configs = domainConfigs.get(domain);
     } catch (err) {
         console.errorWithTime('配置文件读取失败');
         console.errorWithTime(err.message);

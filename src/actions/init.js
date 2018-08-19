@@ -15,6 +15,7 @@ var object = require('blear.utils.object');
 
 var constant = require('../settings/constant');
 var defaults = require('../settings/example.com.json');
+var domainConfigs = require('../utils/domain-configs');
 
 /**
  * 生成配置文件
@@ -25,30 +26,33 @@ var defaults = require('../settings/example.com.json');
  * @param method
  */
 module.exports = function (args, method) {
-    var file = path.join(
-        constant.DOMAINS_DIRNAME,
-        args.domain + '.json'
-    );
+    var domain = args.domain;
+    var configs;
+    var file = domainConfigs.file(domain);
 
-    if (path.isExist(file) && !args.force) {
-        console.errorWithTime(file);
+    try {
+        configs = domainConfigs.get(domain);
+    } catch (err) {
+        // ignore
+    }
+
+    console.logWithTime(file);
+
+    if (configs && !args.force) {
         console.errorWithTime('配置文件已存在，如需覆盖请添加 `--force, -f` 参数');
         return;
     }
 
-    console.infoWithTime(file);
-
     try {
         delete args.force;
-        var obj = object.assign(true, {}, defaults, args);
-        var json = JSON.stringify(obj, null, 4) + '\n';
+        configs = object.assign(true, {}, defaults, args);
+        domainConfigs.set(args.domain, configs);
 
         if (args.debug) {
             console.logWithTime('配置信息');
-            console.log(json);
+            console.log(configs);
         }
 
-        fse.outputFileSync(file, json);
         console.infoWithTime('配置文件生成成功');
     } catch (err) {
         console.errorWithTime('配置文件生成失败');

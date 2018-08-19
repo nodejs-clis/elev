@@ -8,9 +8,19 @@
 
 'use strict';
 
+var path = require('blear.node.path');
 var nodemailer = require('nodemailer');
+var fs = require('fs-extra');
 
-module.exports = function (domain) {
+var domainConfigs = require('../utils/domain-configs');
+
+module.exports = function (domain, err) {
+    var configs = domainConfigs.get(domain);
+
+    if(!configs) {
+        return;
+    }
+
 
 };
 
