@@ -30,17 +30,17 @@ var sched = later.parse.text('every 1 min');
 // });
 
 later.setInterval(function () {
-    var filename = date.format('YYYYMMDD');
-    var logFile = path.join(constant.LOGS_DIRNAME, filename + '.log');
-
-    try {
-        fse.ensureFileSync(logFile);
-    } catch (err) {
-        // ignore
-    }
-
     plan
         .each(getDomains(), function (index, domain, next) {
+            var filename = date.format('YYYYMMDD');
+            var logFile = path.join(constant.LOGS_DIRNAME, filename + '-' + domain + '.log');
+
+            try {
+                fse.ensureFileSync(logFile);
+            } catch (err) {
+                return next();
+            }
+
             assignWork(logFile, domain, next);
         })
         .serial();
@@ -64,7 +64,8 @@ function assignWork(logFile, domain, callback) {
         [
             require.resolve('./worker.js'),
             domain,
-            process.pid
+            process.pid,
+            logFile
         ],
         {
             stdio: [

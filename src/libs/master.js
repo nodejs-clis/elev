@@ -15,6 +15,7 @@ var path = require('blear.node.path');
 var console = require('blear.node.console');
 var array = require('blear.utils.array');
 var number = require('blear.utils.number');
+var date = require('blear.utils.date');
 
 var constant = require('../settings/constant');
 
@@ -74,10 +75,12 @@ exports.status = function () {
     }
 
     var table = [
-        ['daemonPid', info.daemonPid],
-        ['masterPid', info.masterPid],
-        ['startTime', info.startTime],
-        ['workTimes', info.workTimes]
+        ['master pid', info.masterPid],
+        ['daemon pid', info.daemonPid],
+        ['start time', info.startTime],
+        ['domains dirname', constant.DOMAINS_DIRNAME],
+        ['logs dirname', constant.LOGS_DIRNAME],
+        ['work times', info.workTimes]
     ];
 
     array.each(info.workHistories, function (index, history) {
@@ -121,14 +124,15 @@ exports.work = function (index) {
     }
 
     var table = [
-        ['masterPid', info.masterPid],
-        ['daemonPid', info.daemonPid],
-        ['workerPid', history.workerPid],
-        ['workIndex', index],
-        ['startTime', history.startTime],
-        ['endTime', history.endTime],
-        ['domain', history.domain],
-        ['error', history.error]
+        ['master pid', info.masterPid],
+        ['daemon pid', info.daemonPid],
+        ['worker pid', history.workerPid],
+        ['start time', history.startTime],
+        ['end time', history.endTime],
+        ['work domain', history.domain],
+        ['work index', index],
+        ['work log', history.logFile],
+        ['work error', history.error]
     ];
 
     console.table(table, {
@@ -190,7 +194,7 @@ function setWorkerInfo(pid) {
     var info = {
         daemonPid: pid,
         masterPid: process.pid,
-        startTime: new Date().toString(),
+        startTime: date.format(constant.DATE_FORMAT),
         workTimes: 0,
         // 记录工作历史，包含启动时间，域名列表等信息
         workHistories: []

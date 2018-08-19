@@ -28,4 +28,8 @@ exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'worker.json');
 // 每月 1 日凌晨 3 点
 exports.CRON_SCHEDULE = '0 19 0 * *';
 
+// worker 环境变量
 exports.SLAVE_ENV = '__elev_slave_mode__';
+
+// 日志格式
+exports.DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSS';

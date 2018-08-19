@@ -11,6 +11,7 @@
 var console = require('blear.node.console');
 var fse = require('fs-extra');
 var number = require('blear.utils.number');
+var date = require('blear.utils.date');
 
 var visa = require('./visa');
 var constant = require('../settings/constant');
@@ -20,10 +21,12 @@ var constant = require('../settings/constant');
 //   script
 //   domain
 //   workerPid
+//   logFile
 // ]
 var args = process.argv.slice(2);
 var domain = args[0];
 var daemonPid = number.parseInt(args[1], 0);
+var logFile = args[2];
 var startDate = new Date();
 var workerPid = process.pid;
 
@@ -32,10 +35,11 @@ visa(domain, function (err) {
     var endDate = new Date();
     var history = {
         domain: domain,
-        startTime: startDate.toString(),
-        endTime: endDate.toString(),
+        startTime: date.format(constant.DATE_FORMAT, startDate),
+        endTime: date.format(constant.DATE_FORMAT, endDate),
         daemonPid: daemonPid,
         workerPid: workerPid,
+        logFile: logFile,
         error: err ? err.message : ''
     };
 
