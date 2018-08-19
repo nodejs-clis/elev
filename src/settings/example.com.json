@@ -9,5 +9,12 @@
   "certificateKeyFileName": "${domain}.key",
   "certificateCertFileName": "${domain}.pem",
   "saveDirname": "/etc/nginx/cert.d",
-  "afterSaveCommand": "nginx -t && nginx -s reload"
+  "afterSaveCommand": "nginx -t && nginx -s reload",
+  "smtp": {
+    "host": "",
+    "port": 465,
+    "secure": true,
+    "authUser": "username",
+    "authPass": "password"
+  }
 }

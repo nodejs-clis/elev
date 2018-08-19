@@ -11,8 +11,10 @@
 var console = require('blear.node.console');
 var path = require('blear.node.path');
 var fse = require('fs-extra');
+var object = require('blear.utils.object');
 
 var constant = require('../settings/constant');
+var defaults = require('../settings/example.com.json');
 
 /**
  * 生成配置文件
@@ -34,16 +36,18 @@ module.exports = function (args, method) {
         return;
     }
 
-    if (args.debug) {
-        console.logWithTime('配置信息');
-        console.logWithTime(args);
-    }
-
     console.infoWithTime(file);
 
     try {
         delete args.force;
-        var json = JSON.stringify(args, null, 4) + '\n';
+        var obj = object.assign(true, {}, defaults, args);
+        var json = JSON.stringify(obj, null, 4) + '\n';
+
+        if (args.debug) {
+            console.logWithTime('配置信息');
+            console.log(json);
+        }
+
         fse.outputFileSync(file, json);
         console.infoWithTime('配置文件生成成功');
     } catch (err) {
