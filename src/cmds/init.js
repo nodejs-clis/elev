@@ -41,7 +41,6 @@ cli
         type: 'boolean'
     })
     .option('dnsRefreshSeconds', {
-        alias: ['f'],
         describe: 'DNS 刷新秒数',
         type: 'number',
         default: defaults.dnsRefreshSeconds,
@@ -87,13 +86,11 @@ cli
         }
     })
     .option('saveDirname', {
-        alias: 's',
         describe: '证书保存路径，请确保有该目录读写权限',
         type: 'string',
         coerce: path.resolve
     })
     .option('afterSaveCommand', {
-        alias: 'e',
         describe: '证书保存后的执行命令，请确保有执行权限',
         type: 'string'
     })
