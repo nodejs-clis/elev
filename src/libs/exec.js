@@ -9,6 +9,7 @@
 'use strict';
 
 var console = require('blear.node.console');
+var Error = require('blear.classes.error');
 var shell = require('shelljs');
 
 /**
@@ -23,7 +24,10 @@ module.exports = function (configs, callback) {
 
     if (shell.exec(command).code !== 0) {
         console.errorWithTime('命令执行失败，请手动执行后续操作');
-        return callback(new Error('命令执行失败'));
+        return callback(new Error({
+            message: '命令执行失败',
+            command: command
+        }));
     }
 
     console.logWithTime('命令执行成功');

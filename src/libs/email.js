@@ -12,11 +12,13 @@ var path = require('blear.node.path');
 var string = require('blear.utils.string');
 var object = require('blear.utils.object');
 var array = require('blear.utils.array');
+var date = require('blear.utils.date');
 var nodemailer = require('nodemailer');
 var fs = require('fs-extra');
 
 var domainConfigs = require('../utils/domain-configs');
 var template = fs.readFileSync(path.join(__dirname, '../settings/email.html'), 'utf8');
+var constant = require('../settings/constant');
 
 /**
  * 邮件发送
@@ -68,7 +70,9 @@ module.exports = function (domain, err, callback) {
  * @returns {string}
  */
 function beautifyError(err) {
-    var codeList = [];
+    var codeList = [
+        'Error at: ' + date.format(constant.DATE_FORMAT)
+    ];
     var keys = [
         'name',
         'type',
@@ -85,13 +89,13 @@ function beautifyError(err) {
         }
 
         codeList.push(
-            'error.' + key + ': ' + val
+            'Error.' + key + ': ' + val
         );
     });
 
     object.each(err, function (key, val) {
         codeList.push(
-            'error.' + key + ': ' + val
+            'Error.' + key + ': ' + val
         );
     });
 

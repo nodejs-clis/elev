@@ -15,6 +15,7 @@ var date = require('blear.utils.date');
 
 var visa = require('./visa');
 var constant = require('../settings/constant');
+var email = require('./email');
 
 // [
 //   node
@@ -29,6 +30,24 @@ var daemonPid = number.parseInt(args[1], 0);
 var logFile = args[2];
 var startDate = new Date();
 var workerPid = process.pid;
+var notify = function (err) {
+    if (!err) {
+        return;
+    }
+
+    console.logWithTime('开始邮件通知');
+    email(domain, err, function (err, ret) {
+        if (err) {
+            console.errorWithTime('开始邮件通知');
+            return;
+        }
+
+        console.infoWithTime('邮件通知成功');
+        ret.accepted.forEach(function (accepted) {
+            console.infoWithTime('收件人', accepted);
+        });
+    });
+};
 
 process.env[constant.WORKER_ENV] = true;
 visa(domain, function (err) {
@@ -42,6 +61,7 @@ visa(domain, function (err) {
         logFile: logFile,
         error: err ? err.message : ''
     };
+    notify(err);
 
     console.logWithTime('读取 worker 配置文件');
 
@@ -51,7 +71,8 @@ visa(domain, function (err) {
         console.errorWithTime('读取 worker 配置文件失败');
         console.errorWithTime(err.message);
         console.errorWithTime(constant.WORKER_FILEPATH);
-        return process.exit(1);
+        notify(err);
+        return;
     }
 
     workerInfo.workHistories.push(history);
@@ -64,7 +85,8 @@ visa(domain, function (err) {
         console.errorWithTime('写入 worker 配置文件失败');
         console.errorWithTime(err.message);
         console.errorWithTime(constant.WORKER_FILEPATH);
-        return process.exit(1);
+        notify(err);
+        return;
     }
 });
 
