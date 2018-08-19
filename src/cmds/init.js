@@ -17,6 +17,13 @@ var example = require('../settings/example.com.json');
 cli
     .command('init', '初始化配置文件')
     .helper()
+    .option('domain', {
+        alias: ['d'],
+        default: example.domain,
+        describe: '域名，仅支持单域名的泛域名证书',
+        type: 'string',
+        required: true
+    })
     .option('email', {
         alias: ['e'],
         default: example.email,
@@ -28,13 +35,6 @@ cli
         alias: 'D',
         describe: '是否调试模式，将会打印更加详细的日志',
         type: 'boolean'
-    })
-    .option('domain', {
-        alias: ['d'],
-        default: example.domain,
-        describe: '域名，仅支持单域名的泛域名证书',
-        type: 'string',
-        required: true
     })
     .option('dnsRefreshSeconds', {
         alias: ['f'],
