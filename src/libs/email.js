@@ -54,7 +54,7 @@ module.exports = function (domain, err, callback) {
         subject: smtp.subject,
         html: string.assign(template, {
             subject: smtp.subject,
-            error: beautifyError(err)
+            error: beautifyError(domain, err)
         })
     }, function (err) {
         if (callback) {
@@ -66,12 +66,14 @@ module.exports = function (domain, err, callback) {
 
 /**
  * 美化错误信息
+ * @param domain
  * @param err
  * @returns {string}
  */
-function beautifyError(err) {
+function beautifyError(domain, err) {
     var codeList = [
-        'Error at: ' + date.format(constant.DATE_FORMAT)
+        'Error at: ' + date.format(constant.DATE_FORMAT),
+        'Error domain: ' + domain
     ];
     var keys = [
         'name',

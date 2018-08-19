@@ -35,10 +35,11 @@ var notify = function (err) {
         return;
     }
 
-    console.logWithTime('开始邮件通知');
+    console.logWithTime('elev 命令执行异常，开始邮件通知');
     email(domain, err, function (err, ret) {
         if (err) {
-            console.errorWithTime('开始邮件通知');
+            console.errorWithTime('邮件通知失败');
+            console.errorWithTime(err.message);
             return;
         }
 
