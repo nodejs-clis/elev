@@ -187,7 +187,7 @@ function issue(configs, callback) {
                 challenge._alidnsRecordId = recordId;
             })
             .task(function (next) {
-                if (process.env[constant.SLAVE_ENV]) {
+                if (process.env[constant.WORKER_ENV]) {
                     console.logWithTime('等待 DNS 记录生效，倒计时', configs.dnsRefreshSeconds, '秒');
                     return;
                 }
@@ -234,7 +234,7 @@ function issue(configs, callback) {
  * 打印 loading
  */
 function consoleLoading() {
-    if (process.env[constant.SLAVE_ENV]) {
+    if (process.env[constant.WORKER_ENV]) {
         return;
     }
 
@@ -245,7 +245,7 @@ function consoleLoading() {
  * 打印 loading end
  */
 function consoleLoadingEnd() {
-    if (process.env[constant.SLAVE_ENV]) {
+    if (process.env[constant.WORKER_ENV]) {
         return;
     }
 

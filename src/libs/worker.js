@@ -30,7 +30,7 @@ var logFile = args[2];
 var startDate = new Date();
 var workerPid = process.pid;
 
-process.env[constant.SLAVE_ENV] = true;
+process.env[constant.WORKER_ENV] = true;
 visa(domain, function (err) {
     var endDate = new Date();
     var history = {
