@@ -11,10 +11,13 @@
   "saveDirname": "/etc/nginx/cert.d",
   "afterSaveCommand": "nginx -t && nginx -s reload",
   "smtp": {
+    "from": "",
+    "to": "",
+    "subject": "elev 命令执行异常",
     "host": "",
     "port": 465,
     "secure": true,
-    "authUser": "username",
-    "authPass": "password"
+    "user": "username",
+    "pass": "password"
   }
 }

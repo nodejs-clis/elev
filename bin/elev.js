@@ -15,6 +15,7 @@ require('../src/cmds/init');
 require('../src/cmds/list');
 require('../src/cmds/visa');
 require('../src/cmds/cron');
+require('../src/cmds/email');
 cli.parse({
     bin: 'lev',
     package: require('../package.json')
