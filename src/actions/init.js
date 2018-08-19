@@ -55,6 +55,7 @@ module.exports = function (args, method) {
 
         if (reference) {
             from(configs, reference, [
+                'email',
                 'dnsServerName',
                 'dnsServerAccessKey',
                 'dnsServerAccessSecret',
@@ -90,14 +91,15 @@ module.exports = function (args, method) {
 
 /**
  * 来自
- * @param a
- * @param b
+ * @param to
+ * @param from
  * @param list
  */
-function from(a, b, list) {
-    list.forEach(function (item) {
-        if (a[item] === '') {
-            a[item] = b[item];
+function from(to, from, list) {
+    list.forEach(function (key) {
+        if (to[key] === '') {
+            console.log(key, from[key]);
+            to[key] = from[key];
         }
     });
 }

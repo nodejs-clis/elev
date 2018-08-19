@@ -18,6 +18,7 @@ cli
     .method('status', '查看定时任务状态')
     .method('stop', '停止定时任务')
     .method('work', '查看定时任务工作记录')
+    .usage('elev work <ind' + '' + 'ex>', '查看指定索引的工作记录')
 
     .action(require('../actions/cron'))
     .action('start', require('../actions/cron-start'))

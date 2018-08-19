@@ -87,7 +87,7 @@ cli
         }
     })
     .option('saveDirname', {
-        alias: 'r',
+        alias: 's',
         describe: '证书保存路径，请确保有该目录读写权限',
         type: 'string',
         coerce: path.resolve
