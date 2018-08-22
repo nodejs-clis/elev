@@ -17,16 +17,18 @@ var nodemailer = require('nodemailer');
 var fs = require('fs-extra');
 
 var domainConfigs = require('../utils/domain-configs');
-var template = fs.readFileSync(path.join(__dirname, '../settings/email.html'), 'utf8');
+var erroTemplate = fs.readFileSync(path.join(__dirname, '../settings/email-error.html'), 'utf8');
+var successTemplate = fs.readFileSync(path.join(__dirname, '../settings/email-success.html'), 'utf8');
 var constant = require('../settings/constant');
 
 /**
  * 邮件发送
  * @param domain
  * @param err
+ * @param history
  * @param callback
  */
-module.exports = function (domain, err, callback) {
+module.exports = function (domain, err, history, callback) {
     try {
         var configs = domainConfigs.get(domain);
     } catch (err) {
@@ -52,9 +54,12 @@ module.exports = function (domain, err, callback) {
         from: smtp.from,
         to: smtp.to,
         subject: smtp.subject,
-        html: string.assign(template, {
+        html: err ? string.assign(erroTemplate, {
             subject: smtp.subject,
-            error: beautifyError(domain, err)
+            message: beautifyError(domain, err, history)
+        }) : string.assign(successTemplate, {
+            subject: smtp.subject,
+            message: beautifySuccess(domain, history)
         })
     }, function (err) {
         if (callback) {
@@ -68,13 +73,26 @@ module.exports = function (domain, err, callback) {
  * 美化错误信息
  * @param domain
  * @param err
+ * @param history
  * @returns {string}
  */
-function beautifyError(domain, err) {
+function beautifyError(domain, err, history) {
     var codeList = [
-        'Error at: ' + date.format(constant.DATE_FORMAT),
-        'Error domain: ' + domain
+        '状态: 失败'
     ];
+
+    if (history) {
+        codeList.push(
+            'history start at: ' + history.startTime,
+            'history start end: ' + history.endTime,
+            'history daemon pid: ' + history.daemonPid,
+            'history worker pid: ' + history.workerPid,
+            'history log file: ' + history.logFile,
+            'history #index: ' + history.index,
+            'history domain: ' + domain
+        );
+    }
+
     var keys = [
         'name',
         'type',
@@ -104,3 +122,29 @@ function beautifyError(domain, err) {
     return codeList.join('\n');
 }
 
+
+/**
+ * 生成成功显示信息
+ * @param domain
+ * @param history
+ * @returns {string}
+ */
+function beautifySuccess(domain, history) {
+    var list = [
+        '状态: 成功'
+    ];
+
+    if (history) {
+        list.push(
+            'history start at: ' + history.startTime,
+            'history start end: ' + history.endTime,
+            'history daemon pid: ' + history.daemonPid,
+            'history worker pid: ' + history.workerPid,
+            'history log file: ' + history.logFile,
+            'history #index: ' + history.index,
+            'history domain: ' + domain
+        );
+    }
+
+    return list.join('\n');
+}

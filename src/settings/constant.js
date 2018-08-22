@@ -26,7 +26,7 @@ exports.CRON_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'cron.json');
 exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'worker.json');
 
 // 每月 1 日凌晨 3 点
-exports.CRON_SCHEDULE = '0 19 0 * *';
+exports.CRON_SCHEDULE = 'at 20:00 on the last day of the month';
 
 // worker 环境变量
 exports.WORKER_ENV = '__elev_worker_mode__';

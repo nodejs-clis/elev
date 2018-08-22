@@ -30,8 +30,10 @@ var daemonPid = number.parseInt(args[1], 0);
 var logFile = args[2];
 var startDate = new Date();
 var workerPid = process.pid;
-var notify = function (err) {
+var notify = function (err, history) {
     if (!err) {
+        console.logWithTime('elev 命令执行成功，开始邮件通知');
+        email();
         return;
     }
 
@@ -62,7 +64,6 @@ visa(domain, function (err) {
         logFile: logFile,
         error: err ? err.message : ''
     };
-    notify(err);
 
     console.logWithTime('读取 worker 配置文件');
 
@@ -72,22 +73,21 @@ visa(domain, function (err) {
         console.errorWithTime('读取 worker 配置文件失败');
         console.errorWithTime(err.message);
         console.errorWithTime(constant.WORKER_FILEPATH);
-        notify(err);
         return;
     }
 
+    history.index = workerInfo.workHistories.length;
     workerInfo.workHistories.push(history);
     workerInfo.workTimes++;
     console.logWithTime('写入 worker 配置文件');
 
     try {
         fse.writeJSONSync(constant.WORKER_FILEPATH, workerInfo);
+        notify(err, history);
     } catch (err) {
         console.errorWithTime('写入 worker 配置文件失败');
         console.errorWithTime(err.message);
         console.errorWithTime(constant.WORKER_FILEPATH);
-        notify(err);
-        return;
     }
 });
 
