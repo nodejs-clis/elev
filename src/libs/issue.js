@@ -87,8 +87,17 @@ function issue(configs, callback) {
         .taskPromise(function () {
             console.logWithTime('创建 csr');
             return acme.openssl.createCsr({
-                commonName: '*.' + configs.domain,
-                altNames: [configs.domain]
+                // 通用名称
+                commonName: configs.domain,
+                altNames: [
+                    configs.domain,
+                    '*.' + configs.domain
+                ],
+                // @link https://www.digicert.com/ssl-certificate-country-codes.htm
+                country: 'CN',
+                state: 'zhejiang',
+                locality: 'hangzhou',
+                organization: 'Hangzhou Beidou Blockchain Technology Co., Ltd.'
             });
         })
         .taskPromise(function (com) {
@@ -164,7 +173,16 @@ function issue(configs, callback) {
                 console.logWithTime('验证成功');
                 finshChallenge(authz, challenge, next);
             })
-            .serial(callback);
+            .serial()
+            .try(function () {
+                callback(null);
+            })
+            .catch(function (err) {
+                consoleLoadingEnd();
+                finshChallenge(authz, challenge, function () {
+                    callback(err);
+                });
+            });
     }
 
 
