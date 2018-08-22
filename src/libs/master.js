@@ -84,12 +84,12 @@ exports.status = function () {
         ['work times', info.workTimes]
     ];
 
-    // array.each(info.workHistories, function (index, history) {
-    //     table.push([
-    //         'work#' + index,
-    //         history.startTime
-    //     ]);
-    // });
+    array.each(info.workHistories, function (index, history) {
+        table.push([
+            'worker#' + index,
+            history.startTime
+        ]);
+    });
 
     console.table(table, {
         border: true,
