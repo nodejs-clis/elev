@@ -10,14 +10,16 @@
 var cli = require('blear.node.cli');
 
 require('../src/cmds/banner');
-require('../src/cmds/global');
+require('../src/cmds/root');
 require('../src/cmds/init');
 require('../src/cmds/list');
 require('../src/cmds/visa');
 require('../src/cmds/cron');
+require('../src/cmds/worker');
 require('../src/cmds/email');
+
 cli.parse({
-    bin: 'lev',
+    bin: 'elev',
     package: require('../package.json')
 });
 
