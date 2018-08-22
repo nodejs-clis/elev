@@ -28,6 +28,7 @@ exports.start = function () {
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
+        console.errorWithTime('启动周期', constant.CRON_SCHEDULE_TEXT);
         console.errorWithTime('daemonPid', info.daemonPid);
         console.errorWithTime('startTime', info.startTime);
         return;
@@ -96,13 +97,14 @@ exports.status = function () {
             'green'
         ]
     });
+    console.log();
 };
 
 /**
- * 展示某次 work 记录
+ * 展示某次 worker 记录
  * @param index
  */
-exports.work = function (index) {
+exports.worker = function (index) {
     var info = getWorkerInfo();
 
     if (index === undefined) {
@@ -119,7 +121,7 @@ exports.work = function (index) {
     var history = info.workHistories[index];
 
     if (!history) {
-        console.errorWithTime('work#' + index + ' 工作记录不存在');
+        console.errorWithTime('worker#' + index + ' 工作记录不存在');
         return;
     }
 
@@ -129,8 +131,8 @@ exports.work = function (index) {
         ['worker pid', history.workerPid],
         ['start time', history.startTime],
         ['end time', history.endTime],
+        ['worker id', index],
         ['work domain', history.domain],
-        ['work index', index],
         ['work log', history.logFile],
         ['work error', history.error]
     ];
@@ -210,6 +212,7 @@ function setWorkerInfo(pid) {
     }
 
     console.infoWithTime('定时任务启动成功');
+    console.infoWithTime('启动周期', constant.CRON_SCHEDULE_TEXT);
     console.infoWithTime('daemonPid', info.daemonPid);
     console.infoWithTime('startTime', info.startTime);
     return info;

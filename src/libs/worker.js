@@ -65,7 +65,6 @@ visa(domain, function (err) {
         error: err ? err.message : ''
     };
 
-    notify(err, history);
     console.logWithTime('读取 worker 配置文件');
 
     try {
@@ -77,7 +76,7 @@ visa(domain, function (err) {
         return;
     }
 
-    history.index = workerInfo.workHistories.length;
+    history.workerId = workerInfo.workTimes;
     workerInfo.workHistories.push(history);
     workerInfo.workTimes++;
     console.logWithTime('写入 worker 配置文件');
@@ -89,5 +88,7 @@ visa(domain, function (err) {
         console.errorWithTime(err.message);
         console.errorWithTime(constant.WORKER_FILEPATH);
     }
+
+    notify(err, history);
 });
 

@@ -78,7 +78,7 @@ module.exports = function (domain, err, history, callback) {
  */
 function beautifyError(domain, err, history) {
     var codeList = [
-        '状态: 失败'
+        '状态: ' + (err ? '失败' : '成功')
     ];
 
     if (history) {
@@ -88,7 +88,7 @@ function beautifyError(domain, err, history) {
             'history daemon pid: ' + history.daemonPid,
             'history worker pid: ' + history.workerPid,
             'history log file: ' + history.logFile,
-            'history #index: ' + history.index,
+            'history worker id: ' + history.workerId,
             'history domain: ' + domain
         );
     }
