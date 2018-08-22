@@ -55,7 +55,7 @@ module.exports = function (args) {
     }
 
     console.loading();
-    email(domain, err, null, function (err, ret) {
+    email(domain, null, null, function (err, ret) {
         console.loadingEnd();
 
         if (err) {

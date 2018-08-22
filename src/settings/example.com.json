@@ -13,7 +13,7 @@
   "smtp": {
     "from": "",
     "to": "",
-    "subject": "elev 命令执行异常",
+    "subject": "elev 命令执行报告",
     "host": "",
     "port": 465,
     "secure": true,
