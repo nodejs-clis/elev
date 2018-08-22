@@ -12,6 +12,7 @@ var console = require('blear.node.console');
 var path = require('blear.node.path');
 var object = require('blear.utils.object');
 var typeis = require('blear.utils.typeis');
+var string = require('blear.utils.string');
 
 var constant = require('../settings/constant');
 var defaults = require('../settings/example.com.json');
@@ -52,6 +53,13 @@ module.exports = function (args, method) {
     try {
         delete args.force;
         var configs = object.assign(true, {}, defaults, args);
+
+        configs.certificateKeyFileName = string.assign(configs.certificateKeyFileName, {
+            domain: domain
+        });
+        configs.certificateCertFileName = string.assign(configs.certificateCertFileName, {
+            domain: domain
+        });
 
         if (reference) {
             from(configs, reference, [
