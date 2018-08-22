@@ -6,7 +6,7 @@
   "scripts": {},
   "preferGlobal": false,
   "bin": {
-    "lev": "./bin/lev.js"
+    "elev": "./bin/elev.js"
   },
   "engines": {
     "node": ">= 6.0.0",
