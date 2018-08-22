@@ -8,7 +8,7 @@
 
 'use strict';
 
-var cli = require('/Users/cloudcome/development/github-blearjs/blear.node.cli');
+var cli = require('blear.node.cli');
 
 cli
     .command('init', '初始化配置文件')

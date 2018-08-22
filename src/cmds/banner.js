@@ -8,7 +8,7 @@
 
 'use strict';
 
-var cli = require('/Users/cloudcome/development/github-blearjs/blear.node.cli');
+var cli = require('blear.node.cli');
 var console = require('blear.node.console');
 
 // @link http://patorjk.com/software/taag/#p=display&f=Slant%20Relief&t=ELEV

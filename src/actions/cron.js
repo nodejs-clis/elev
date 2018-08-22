@@ -8,7 +8,7 @@
 
 'use strict';
 
-var cli = require('/Users/cloudcome/development/github-blearjs/blear.node.cli');
+var cli = require('blear.node.cli');
 
 /**
  * 定时任务相关
