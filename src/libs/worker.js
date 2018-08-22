@@ -38,7 +38,7 @@ var notify = function (err, history) {
     }
 
     console.logWithTime('elev 命令执行异常，开始邮件通知');
-    email(domain, err, function (err, ret) {
+    email(domain, err, history, function (err, ret) {
         if (err) {
             console.errorWithTime('邮件通知失败');
             console.errorWithTime(err.message);
@@ -65,6 +65,7 @@ visa(domain, function (err) {
         error: err ? err.message : ''
     };
 
+    notify(err, history);
     console.logWithTime('读取 worker 配置文件');
 
     try {
@@ -83,7 +84,6 @@ visa(domain, function (err) {
 
     try {
         fse.writeJSONSync(constant.WORKER_FILEPATH, workerInfo);
-        notify(err, history);
     } catch (err) {
         console.errorWithTime('写入 worker 配置文件失败');
         console.errorWithTime(err.message);
