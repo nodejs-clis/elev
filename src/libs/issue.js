@@ -49,7 +49,10 @@ function issue(configs, callback) {
         })
         .taskSync(function (privateKey) {
             client = new acme.Client({
-                directoryUrl: acme.directory.letsencrypt.staging,
+                directoryUrl:
+                    constant.DEBUG
+                        ? acme.directory.letsencrypt.staging
+                        : acme.directory.letsencrypt.production,
                 accountKey: privateKey,
                 backoffAttempts: 10
             });

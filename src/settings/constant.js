@@ -10,6 +10,8 @@
 
 var path = require('blear.node.path');
 
+exports.DEBUG = process.env.CLOUDCOME_MAC === 'YES';
+
 // 配置目录
 exports.CONFIGS_DIRNAME = path.join(process.env.HOME, '.elev');
 

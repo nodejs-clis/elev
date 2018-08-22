@@ -51,11 +51,14 @@ module.exports = function (domain, callback) {
 
     plan
         .task(function (next) {
-            // issue(configs, next);
-            setTimeout(function () {
-                console.log('>>>>>>>>>模拟签证<<<<<<<<<');
-                next(null, [Buffer.from('123'), Buffer.from('456')]);
-            }, 1000);
+            if (constant.DEBUG) {
+                setTimeout(function () {
+                    console.log('>>>>>>>>>模拟签证<<<<<<<<<');
+                    next(null, [Buffer.from('123'), Buffer.from('456')]);
+                }, 1000);
+            } else {
+                issue(configs, next);
+            }
         })
         .task(function (next, com) {
             save(configs, com[0], com[1], next);
@@ -66,7 +69,7 @@ module.exports = function (domain, callback) {
         .serial(function (err) {
             ending();
 
-            if(callback) {
+            if (callback) {
                 callback(err);
             }
         });
