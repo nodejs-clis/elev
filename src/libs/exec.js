@@ -10,11 +10,13 @@
 
 var console = require('blear.node.console');
 var Error = require('blear.classes.error');
-var shell = require('shelljs');
+
+var shell = require('../utils/shell');
 
 /**
  * 执行命令
  * @param configs
+ * @param configs.afterSaveCommand
  * @param callback
  */
 module.exports = function (configs, callback) {
@@ -22,7 +24,7 @@ module.exports = function (configs, callback) {
 
     console.logWithTime(command);
 
-    var result = shell.exec(command);
+    var result = shell(command);
 
     if (result.code !== 0) {
         console.errorWithTime('命令执行失败，请手动执行后续操作');

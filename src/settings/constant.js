@@ -22,6 +22,9 @@ exports.DOMAINS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'domains');
 // 日志目录
 exports.LOGS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'logs');
 
+// 临时目录
+exports.TMP_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'tmp');
+
 // 定时任务文件路径
 exports.CRON_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'cron.json');
 

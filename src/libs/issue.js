@@ -17,6 +17,7 @@ var acme = require('acme-client');
 
 var alidns = require('./alidns');
 var constant = require('../settings/constant');
+var csr = require('./csr');
 
 module.exports = issue;
 
@@ -45,6 +46,7 @@ function issue(configs, callback) {
     var certificateCert = null;
     var order = null;
     var client = null;
+    var domain = configs.domain;
     var dnsVerifyWaitTime = configs.dnsRefreshSeconds * 1000;
 
     plan
@@ -73,8 +75,8 @@ function issue(configs, callback) {
             console.logWithTime('创建 Let’s Encrypt 订单');
             return client.createOrder({
                 identifiers: [
-                    {type: 'dns', value: configs.domain},
-                    {type: 'dns', value: '*.' + configs.domain}
+                    {type: 'dns', value: domain},
+                    {type: 'dns', value: '*.' + domain}
                 ]
             });
         })
@@ -89,21 +91,24 @@ function issue(configs, callback) {
                 .each(authorizations, verify)
                 .serial(next);
         })
-        .taskPromise(function () {
-            console.logWithTime('创建 csr');
-            return acme.openssl.createCsr({
-                // 通用名称
-                commonName: configs.domain,
-                altNames: [
-                    configs.domain,
-                    '*.' + configs.domain
-                ],
-                // @link https://www.digicert.com/ssl-certificate-country-codes.htm
-                country: configs.country,
-                state: configs.state,
-                locality: configs.locality,
-                organization: configs.organization
-            });
+        // .taskPromise(function () {
+        //     console.logWithTime('创建 csr');
+        //     return acme.openssl.createCsr({
+        //         // 通用名称
+        //         commonName: domain,
+        //         altNames: [
+        //             domain,
+        //             '*.' + domain
+        //         ],
+        //         // @link https://countrycode.org/
+        //         country: configs.country,
+        //         state: configs.state,
+        //         locality: configs.locality,
+        //         organization: configs.organization
+        //     });
+        // })
+        .taskSync(function () {
+            return csr(domain);
         })
         .taskPromise(function (com) {
             certificateKey = com[0];
