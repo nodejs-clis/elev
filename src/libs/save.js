@@ -14,15 +14,20 @@ var console = require('blear.node.console');
 
 /**
  * 保存文件
- * @param config
+ * @param configs
  * @param keyBf
  * @param pemBf
  * @param callback
  */
-module.exports = function (config, keyBf, pemBf, callback) {
-    var file = path.join(config.saveDirname, config.certificateKeyFileName);
+module.exports = function (configs, keyBf, pemBf, callback) {
+    var file = path.join(configs.saveDirname, configs.certificateKeyFileName);
 
     console.logWithTime(file);
+
+    if(configs.debug) {
+        console.log(keyBf.toString());
+    }
+
     try {
         fse.outputFileSync(
             file,
@@ -35,11 +40,14 @@ module.exports = function (config, keyBf, pemBf, callback) {
         return callback(err);
     }
 
-    file = path.join(config.saveDirname, config.certificateCertFileName);
+    file = path.join(configs.saveDirname, configs.certificateCertFileName);
     console.logWithTime(file);
+    if(configs.debug) {
+        console.log(pemBf.toString());
+    }
     try {
         fse.outputFileSync(
-            path.join(config.saveDirname, config.certificateCertFileName),
+            path.join(configs.saveDirname, configs.certificateCertFileName),
             pemBf
         );
         console.logWithTime('文件保存成功');

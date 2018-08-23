@@ -108,6 +108,14 @@ function issue(configs, callback) {
         .taskPromise(function (com) {
             certificateKey = com[0];
             certificateCsr = com[1];
+
+            if (configs.debug) {
+                console.logWithTime('certificateKey');
+                console.log(com[0]);
+                console.logWithTime('certificateCsr');
+                console.log(com[1]);
+            }
+
             console.logWithTime('完成 Let’s Encrypt 订单');
             return client.finalizeOrder(order, certificateCsr);
         })
