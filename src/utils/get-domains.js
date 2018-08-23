@@ -9,19 +9,28 @@
 'use strict';
 
 var path = require('blear.node.path');
+var typeis = require('blear.utils.typeis');
+var array = require('blear.utils.array');
 
 var constant = require('../settings/constant');
 
 /**
  * 当前已配置的域名列表
- * @returns {(void | string)[]}
+ * @param [exclude] {string | array} 排除
+ * @returns {(string)[]}
  */
-module.exports = function () {
-    return path.glob('*.json', {
+module.exports = function (exclude) {
+    var list = path.glob('*.json', {
         srcDirname: constant.DOMAINS_DIRNAME
     }).map(function (filename) {
         return path.basename(filename).replace(/\.json$/i, '');
     });
+
+    if (typeis.Undefined(exclude)) {
+        return list;
+    }
+
+    return array.delete(list, exclude);
 };
 
 

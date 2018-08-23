@@ -17,6 +17,7 @@ var string = require('blear.utils.string');
 var constant = require('../settings/constant');
 var defaults = require('../settings/example.com.json');
 var domainConfigs = require('../utils/domain-configs');
+var getDomains = require('../utils/get-domains');
 
 /**
  * 生成配置文件
@@ -43,10 +44,18 @@ module.exports = function (args, method) {
     if (args.reference) {
         try {
             reference = domainConfigs.get(args.reference);
+            console.infoWithTime('参考域名', args.reference);
         } catch (err) {
             console.errorWithTime('参考配置文件获取失败');
             console.errorWithTime(err.message);
             return;
+        }
+    } else {
+        var domains = getDomains(domain);
+
+        if (domains.length > 0) {
+            console.warnWithTime('当前你已配置了其他域名');
+            console.warnWithTime('可以使用 --reference, -r 参数参考已配置好的域名配置文件');
         }
     }
 
