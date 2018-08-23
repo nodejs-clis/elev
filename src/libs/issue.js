@@ -33,10 +33,6 @@ module.exports = issue;
  * @param configs.email
  * @param configs.debug
  * @param configs.domain
- * @param configs.country
- * @param configs.state
- * @param configs.locality
- * @param configs.organization
  * @param configs.dnsRefreshSeconds
  * @param callback
  */
@@ -108,7 +104,7 @@ function issue(configs, callback) {
         //     });
         // })
         .taskSync(function () {
-            return csr(domain);
+            return csr(configs);
         })
         .taskPromise(function (com) {
             certificateKey = com[0];

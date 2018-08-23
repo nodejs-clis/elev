@@ -16,26 +16,16 @@ var fse = require('fs-extra');
 var fs = require('fs');
 
 var shell = require('../utils/shell');
-var domainConfigs = require('../utils/domain-configs');
 var constant = require('../settings/constant');
 
 var sslConfTemplate = fs.readFileSync(path.join(__dirname, '../settings/ssl.conf'), 'utf8');
 
 /**
  * 根据域名配置生成 csr
- * @param domain
+ * @param configs
  * @returns {[]}
  */
-module.exports = function (domain) {
-    try {
-        var configs = domainConfigs.get(domain);
-    } catch (err) {
-        // console.errorWithTime('获取配置文件失败');
-        console.errorWithTime('域名', domain);
-        // console.errorWithTime(err.message);
-        throw new Error('获取配置文件失败');
-    }
-
+module.exports = function (configs) {
     var conf = string.assign(sslConfTemplate, configs);
     var conFile = generateFile();
 
@@ -47,8 +37,10 @@ module.exports = function (domain) {
         throw err;
     }
 
-    console.logWithTime('配置信息');
-    console.log(conf);
+    if (configs.debug) {
+        console.logWithTime('配置信息');
+        console.log(conf);
+    }
 
     var keyFile = generateFile();
     var outFile = generateFile();
