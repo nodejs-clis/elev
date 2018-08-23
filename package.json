@@ -1,6 +1,6 @@
 {
   "name": "elev",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "Easy Let’s Encrypt Visa（简洁的 Let’s Encrypt 签证）",
   "scripts": {},
