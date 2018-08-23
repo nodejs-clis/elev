@@ -25,6 +25,7 @@ module.exports = issue;
 /**
  * 颁发
  * @param configs
+ * @param configs.dnsCheckTimes
  * @param configs.dnsServerName
  * @param configs.dnsServerAccessKey
  * @param configs.dnsServerAccessSecret
@@ -58,7 +59,7 @@ function issue(configs, callback) {
                         ? acme.directory.letsencrypt.staging
                         : acme.directory.letsencrypt.production,
                 accountKey: privateKey,
-                backoffAttempts: 10
+                backoffAttempts: configs.dnsCheckTimes
             });
         })
         .taskPromise(function () {

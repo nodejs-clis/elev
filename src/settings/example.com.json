@@ -7,6 +7,7 @@
   "locality": "",
   "organization": "",
   "dnsRefreshSeconds": 120,
+  "dnsCheckTimes": 10,
   "dnsServerName": "aliyun",
   "dnsServerAccessKey": "",
   "dnsServerAccessSecret": "",
