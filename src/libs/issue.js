@@ -30,7 +30,7 @@ module.exports = issue;
  * @param configs.dnsServerName
  * @param configs.dnsServerAccessKey
  * @param configs.dnsServerAccessSecret
- * @param configs.email
+ * @param configs.emailAddress
  * @param configs.debug
  * @param configs.domain
  * @param configs.dnsRefreshSeconds
@@ -64,7 +64,7 @@ function issue(configs, callback) {
             console.logWithTime('创建 Let’s Encrypt 账户');
             return client.createAccount({
                 termsOfServiceAgreed: true,
-                contact: ['mailto:' + configs.email]
+                contact: ['mailto:' + configs.emailAddress]
             });
         })
         .taskPromise(function () {

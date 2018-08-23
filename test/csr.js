@@ -9,6 +9,12 @@
 'use strict';
 
 var csr = require('../src/libs/csr');
+var domainConfigs = require('../src/utils/domain-configs');
 
 
-csr('beidoucheche.com');
+var list = csr(domainConfigs.get('beidoucheche.com'));
+
+console.log(list[0].toString());
+
+console.log(list[1].toString());
+

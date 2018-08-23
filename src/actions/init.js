@@ -72,7 +72,7 @@ module.exports = function (args, method) {
 
         if (reference) {
             from(configs, reference, [
-                'email',
+                'emailAddress',
                 'countryName',
                 'stateOrProvinceName',
                 'localityName',
