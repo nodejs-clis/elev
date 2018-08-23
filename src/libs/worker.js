@@ -53,7 +53,7 @@ var notify = function (err, history) {
 };
 
 process.env[constant.WORKER_ENV] = true;
-visa(domain, function (err) {
+visa({domain: domain}, function (err) {
     var endDate = new Date();
     var history = {
         domain: domain,

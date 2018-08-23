@@ -8,6 +8,7 @@
 
 'use strict';
 
+var object = require('blear.utils.object');
 var plan = require('blear.utils.plan');
 var console = require('blear.node.console');
 var path = require('blear.node.path');
@@ -21,17 +22,22 @@ var domainConfigs = require('../utils/domain-configs');
 
 /**
  * 根据域名进行签发
- * @param domain
+ * @param args
+ * @param args.domain
+ * @param args.debug
  * @param [callback]
  */
-module.exports = function (domain, callback) {
+module.exports = function (args, callback) {
     var ending = function () {
         console.infoWithTime('Let’s Encrypt 证书签发结束');
         console.infoWithTime('--------------------------');
     };
+    var domain = args.domain;
+    var debug = args.debug;
 
     console.infoWithTime('--------------------------');
     console.infoWithTime('Let’s Encrypt 证书签发开始');
+    console.logWithTime('调试模式', debug === true);
     console.logWithTime('签发域名', domain);
     console.logWithTime('开始读取配置文件');
 
@@ -43,6 +49,8 @@ module.exports = function (domain, callback) {
         ending();
         return;
     }
+
+    object.assign(configs, args);
 
     if (configs.debug) {
         console.logWithTime('配置信息');
