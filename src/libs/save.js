@@ -24,7 +24,7 @@ module.exports = function (configs, keyBf, pemBf, callback) {
 
     console.logWithTime(file);
 
-    if(configs.debug) {
+    if (configs.debug) {
         console.log(keyBf.toString());
     }
 
@@ -42,9 +42,11 @@ module.exports = function (configs, keyBf, pemBf, callback) {
 
     file = path.join(configs.saveDirname, configs.certificateCertFileName);
     console.logWithTime(file);
-    if(configs.debug) {
+
+    if (configs.debug) {
         console.log(pemBf.toString());
     }
+
     try {
         fse.outputFileSync(
             path.join(configs.saveDirname, configs.certificateCertFileName),
