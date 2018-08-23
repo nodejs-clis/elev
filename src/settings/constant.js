@@ -10,8 +10,8 @@
 
 var path = require('blear.node.path');
 
-exports.DEBUG = process.env.CLOUDCOME_MAC === 'YES';
-exports.DEBUG = true;
+// DEBUG 模式
+exports.DEBUG = process.env.CLOUDCOME_MAC === 'YES' || process.env.SUDO_USER === 'cloudcome';
 
 // 配置目录
 exports.CONFIGS_DIRNAME = path.join(process.env.HOME, '.elev');

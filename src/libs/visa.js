@@ -57,7 +57,7 @@ module.exports = function (domain, callback) {
             //         next(null, [Buffer.from('123'), Buffer.from('456')]);
             //     }, 1000);
             // } else {
-                issue(configs, next);
+            issue(configs, next);
             // }
         })
         .task(function (next, com) {

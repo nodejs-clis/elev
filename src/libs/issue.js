@@ -31,6 +31,10 @@ module.exports = issue;
  * @param configs.email
  * @param configs.debug
  * @param configs.domain
+ * @param configs.country
+ * @param configs.state
+ * @param configs.locality
+ * @param configs.organization
  * @param configs.dnsRefreshSeconds
  * @param callback
  */
@@ -94,10 +98,10 @@ function issue(configs, callback) {
                     '*.' + configs.domain
                 ],
                 // @link https://www.digicert.com/ssl-certificate-country-codes.htm
-                country: 'CN',
-                state: 'zhejiang',
-                locality: 'hangzhou',
-                organization: 'Hangzhou Beidou Blockchain Technology Co., Ltd.'
+                country: configs.country,
+                state: configs.state,
+                locality: configs.locality,
+                organization: configs.organization
             });
         })
         .taskPromise(function (com) {
