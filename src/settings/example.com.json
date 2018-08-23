@@ -7,7 +7,7 @@
   "organizationName": "",
   "organizationalUnitName": "IT",
   "dnsRefreshSeconds": 120,
-  "dnsCheckTimes": 10,
+  "dnsMaxCheckTimes": 20,
   "dnsServerName": "aliyun",
   "dnsServerAccessKey": "",
   "dnsServerAccessSecret": "",

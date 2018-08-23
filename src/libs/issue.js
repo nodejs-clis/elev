@@ -17,7 +17,9 @@ var acme = require('acme-client');
 
 var alidns = require('./alidns');
 var constant = require('../settings/constant');
+var dns = require('./dns');
 var csr = require('./csr');
+var wait = require('../utils/wait');
 
 module.exports = issue;
 
@@ -26,7 +28,7 @@ module.exports = issue;
 /**
  * 颁发
  * @param configs
- * @param configs.dnsCheckTimes
+ * @param configs.dnsMaxCheckTimes
  * @param configs.dnsServerName
  * @param configs.dnsServerAccessKey
  * @param configs.dnsServerAccessSecret
@@ -43,7 +45,7 @@ function issue(configs, callback) {
     var order = null;
     var client = null;
     var domain = configs.domain;
-    var dnsVerifyWaitTime = configs.dnsRefreshSeconds * 1000;
+    var dnsRefreshSeconds = configs.dnsRefreshSeconds;
 
     plan
         .taskPromise(function () {
@@ -57,7 +59,7 @@ function issue(configs, callback) {
                         ? acme.directory.letsencrypt.staging
                         : acme.directory.letsencrypt.production,
                 accountKey: privateKey,
-                backoffAttempts: configs.dnsCheckTimes
+                backoffAttempts: configs.dnsMaxCheckTimes
             });
         })
         .taskPromise(function () {
@@ -145,6 +147,7 @@ function issue(configs, callback) {
     // https://github.com/publishlab/node-acme-client/blob/master/examples/api.js
     function verify(index, authz, callback) {
         var challenge = null;
+        var challengeValue = null;
 
         array.each(authz.challenges, function (index, _) {
             if (_.type === 'dns-01') {
@@ -165,25 +168,24 @@ function issue(configs, callback) {
             })
             .task(function (next, keyAuthorization) {
                 console.logWithTime('应用验证方式');
+                challengeValue = keyAuthorization;
                 return applyChallenge(authz, challenge, keyAuthorization, next);
             })
-            .taskPromise(function () {
+            .task(function (next) {
                 console.logWithTime('检查验证结果');
-                consoleLoading();
-                return client.verifyChallenge(authz, challenge);
+                return dns(configs, challengeValue, next);
             })
             .taskPromise(function () {
-                consoleLoadingEnd();
                 console.logWithTime('提交验证结果');
                 return client.completeChallenge(challenge);
             })
             .taskPromise(function () {
                 console.logWithTime('等待验证状态');
-                consoleLoading();
+                wait.loading();
                 return client.waitForValidStatus(challenge);
             })
             .task(function (next) {
-                consoleLoadingEnd();
+                wait.loadingEnd();
                 console.logWithTime('验证成功');
                 finshChallenge(authz, challenge, next);
             })
@@ -192,7 +194,7 @@ function issue(configs, callback) {
                 callback(null);
             })
             .catch(function (err) {
-                consoleLoadingEnd();
+                wait.loadingEnd();
                 finshChallenge(authz, challenge, function () {
                     callback(err);
                 });
@@ -222,21 +224,9 @@ function issue(configs, callback) {
                 challenge._alidnsRecordId = recordId;
             })
             .task(function (next) {
-                if (process.env[constant.WORKER_ENV]) {
-                    console.logWithTime('等待 DNS 记录生效，倒计时', configs.dnsRefreshSeconds, '秒');
-                    return;
-                }
-
-                var timer = time.setInterval(function () {
-                    if (timer.elapsedTime > dnsVerifyWaitTime) {
-                        time.clearInterval(timer);
-                        console.pointEnd();
-                        return next();
-                    }
-
-                    var remainTime = dnsVerifyWaitTime - timer.elapsedTime;
-                    console.point('等待 DNS 记录生效，倒计时 ' + parseInt(remainTime / 1000) + ' 秒');
-                }, 1000, true);
+                wait.countdown(dnsRefreshSeconds, '等待 DNS 记录生效，倒计时 %d 秒', function () {
+                    next();
+                });
             })
             .serial(callback);
     }
