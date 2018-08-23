@@ -111,9 +111,9 @@ function issue(configs, callback) {
 
             if (configs.debug) {
                 console.logWithTime('certificateKey');
-                console.log(com[0]);
+                console.log(com[0].toString());
                 console.logWithTime('certificateCsr');
-                console.log(com[1]);
+                console.log(com[1].toString());
             }
 
             console.logWithTime('完成 Let’s Encrypt 订单');
