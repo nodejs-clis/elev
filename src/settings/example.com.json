@@ -15,8 +15,8 @@
   "saveDirname": "/etc/nginx/cert.d",
   "afterSaveCommand": "nginx -t && nginx -s reload",
   "smtp": {
-    "from": "",
-    "to": "",
+    "from": "elev 命令执行报告<someone@example.com>",
+    "to": "姓名1<anyone1@example.com>, 姓名2<anyone2@example.com>",
     "subject": "elev 命令执行报告",
     "host": "",
     "port": 465,

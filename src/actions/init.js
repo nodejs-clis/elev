@@ -64,6 +64,10 @@ module.exports = function (args, method) {
         if (reference) {
             from(configs, reference, [
                 'email',
+                'country',
+                'state',
+                'locality',
+                'organization',
                 'dnsServerName',
                 'dnsServerAccessKey',
                 'dnsServerAccessSecret',
@@ -76,18 +80,15 @@ module.exports = function (args, method) {
                 'subject',
                 'host',
                 'port',
+                'secure',
                 'user',
                 'pass'
             ]);
         }
 
         domainConfigs.set(args.domain, configs);
-
-        if (args.debug) {
-            console.logWithTime('配置信息');
-            console.log(configs);
-        }
-
+        console.logWithTime('配置信息');
+        console.log(configs);
         console.infoWithTime('配置文件生成成功');
     } catch (err) {
         console.errorWithTime('配置文件生成失败');
@@ -105,10 +106,7 @@ module.exports = function (args, method) {
  */
 function from(to, from, list) {
     list.forEach(function (key) {
-        if (to[key] === '') {
-            console.log(key, from[key]);
-            to[key] = from[key];
-        }
+        to[key] = from[key];
     });
 }
 
