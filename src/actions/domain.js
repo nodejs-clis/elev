@@ -119,13 +119,21 @@ function listDomain() {
     var list = getDomains();
     var length = list.length;
     var size = Math.max(length.toString().length, 2);
+    var table = [
+        ['#', 'domain']
+    ];
 
-    list = list.map(function (domain, index) {
+    list.forEach(function (domain, index) {
         var key = string.padStart(index + 1, size, '0');
-        return key + '. ' + domain;
+        table.push([
+            key,
+            domain
+        ]);
     });
     console.logWithTime('当前已配置的域名');
-    console.log(list.join('\n'));
+    console.table(table, {
+        thead: true
+    });
 }
 
 
