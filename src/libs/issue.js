@@ -1,5 +1,5 @@
 /**
- * 主文件
+ * 签发
  * @author ydr.me
  * @create 2018-08-14 09:37
  * @update 2018-08-14 09:37
@@ -16,7 +16,6 @@ var acme = require('acme-client');
 
 var alidns = require('./alidns');
 var constant = require('../settings/constant');
-var csr = require('./csr');
 var wait = require('../utils/wait');
 
 module.exports = issue;
