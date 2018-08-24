@@ -12,7 +12,6 @@ var cli = require('blear.node.cli');
 
 cli
     .command('email', '域名通知邮件测试')
-    .helper()
     .option('domain', {
         alias: ['d'],
         default: '',
@@ -20,5 +19,6 @@ cli
         type: 'string',
         required: true
     })
+    .helper()
     .action(require('../actions/email'));
 

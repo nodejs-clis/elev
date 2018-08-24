@@ -12,9 +12,9 @@ var cli = require('blear.node.cli');
 
 cli
     .command('worker', '定时任务工作')
-    .helper()
     .usage('elev worker <ID>', '查看指定 ID 的工作记录')
     // .usage('elev worker <dommain>', '查看指定域名的工作记录')
 
+    .helper()
     .action(require('../actions/worker'));
 

@@ -11,8 +11,7 @@ var cli = require('blear.node.cli');
 
 require('../src/cmds/banner');
 require('../src/cmds/root');
-require('../src/cmds/init');
-require('../src/cmds/list');
+require('../src/cmds/domain');
 require('../src/cmds/visa');
 require('../src/cmds/cron');
 require('../src/cmds/worker');

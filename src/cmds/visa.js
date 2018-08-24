@@ -14,7 +14,6 @@ var path = require('blear.node.path');
 
 cli
     .command('visa', '签发一张 Let’s Encrypt 泛域名证书')
-    .helper()
     .option('domain', {
         alias: 'd',
         required: true,
@@ -25,5 +24,6 @@ cli
         type: 'boolean',
         describe: '是否调试模式，调试模式会打印更多信息'
     })
+    .helper()
     .action(require('../actions/visa'));
 
