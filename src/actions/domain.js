@@ -20,13 +20,12 @@ var domainConfigs = require('../utils/domain-configs');
 var getDomains = require('../utils/get-domains');
 var shell = require('../utils/shell');
 
-var domainRE = /^[a-z\d][a-z\d-]*(\.[a-z]{2,})+/;
+var domainRE = /^[a-z\d][a-z\d-]*(\.[a-z]{2,})+$/;
 
 /**
  * 生成配置文件
  * @param args
  * @param args.debug
- * @param args.domain
  * @param args.reference
  * @param args.force
  * @param args.smtp
@@ -41,13 +40,12 @@ module.exports = function (args, domain) {
     console.logWithTime('当前域名', domain);
 
     if (!domainRE.test(domain)) {
-        console.errorWithTime(domain, '似乎不是一个合法的域名');
+        console.errorWithTime('这似乎不是一个合法的域名');
         return;
     }
 
     var file = domainConfigs.file(domain);
     var editMode = path.isExist(file);
-    var newMode = !editMode;
     var reference = null;
     var force = args.force;
 
@@ -55,7 +53,13 @@ module.exports = function (args, domain) {
 
     // 参考配置
     if (args.reference) {
-        console.infoWithTime('参考域名', args.reference);
+        if (editMode && !force) {
+            console.errorWithTime('当前域名配置文件已存在');
+            console.errorWithTime('如需覆盖请添加 `--force, -f` 参数');
+            return;
+        }
+
+        console.logWithTime('参考域名', args.reference);
 
         if (!domainRE.test(args.reference)) {
             console.errorWithTime(args.reference, '似乎不是一个合法的域名');
@@ -69,25 +73,20 @@ module.exports = function (args, domain) {
             console.errorWithTime(err.message);
             return;
         }
-
-        if (editMode && !force) {
-            console.errorWithTime('当前域名配置文件已存在');
-            console.errorWithTime('如需覆盖请添加 `--force, -f` 参数');
-            return;
-        }
     }
-    // 无参考
-    else {
-        // 新建模式
-        if (newMode) {
-            var domains = getDomains(domain);
 
-            if (domains.length > 0) {
-                console.warnWithTime('当前你已配置了其他域名');
-                console.warnWithTime('使用 `elev domain` 列出当前已配置的域名');
-                console.warnWithTime('可以使用 `--reference, -r` 参数参考已配置好的域名配置文件');
-            }
-        }
+    // // 无参考
+    // var domains = getDomains(domain);
+    // if (!reference && domains.length > 0) {
+    //     console.warnWithTime('当前你已配置了其他域名');
+    //     console.warnWithTime('使用 `elev domain` 列出当前已配置的域名');
+    //     console.warnWithTime('可以使用 `--reference, -r` 指定参考域名');
+    // }
+
+    // 编辑模式 && 无覆盖
+    if (editMode && !force) {
+        vim(file);
+        return;
     }
 
     generate(args, domain, reference);
@@ -111,14 +110,19 @@ function from(to, from, list) {
  * @param file
  */
 function vim(file) {
+    console.infoWithTime('即将进入编辑模式');
+
     setTimeout(function () {
         shell('vim ' + file, {
             stdio: 'inherit'
         });
-    }, 500);
+    }, 1000);
 }
 
 
+/**
+ * 列出域名
+ */
 function listDomain() {
     var list = getDomains();
     var length = list.length;
@@ -140,41 +144,45 @@ function listDomain() {
  * @param reference
  */
 function generate(args, domain, reference) {
+    var configs = object.assign(true, {}, defaults, args, {
+        domain: domain
+    });
+
+    delete configs.force;
+    configs.certificateKeyFileName = string.assign(configs.certificateKeyFileName, {
+        domain: domain
+    });
+    configs.certificateCertFileName = string.assign(configs.certificateCertFileName, {
+        domain: domain
+    });
+
+    if (reference) {
+        from(configs, reference, [
+            'emailAddress',
+            'dnsServerName',
+            'dnsServerAccessKey',
+            'dnsServerAccessSecret',
+            'saveDirname',
+            'afterSaveCommand'
+        ]);
+        from(configs.smtp, reference.smtp, [
+            'from',
+            'to',
+            'subject',
+            'host',
+            'port',
+            'secure',
+            'user',
+            'pass'
+        ]);
+    }
+
     try {
-        var configs = object.assign(true, {}, defaults, args);
-
-        configs.certificateKeyFileName = string.assign(configs.certificateKeyFileName, {
-            domain: domain
-        });
-        configs.certificateCertFileName = string.assign(configs.certificateCertFileName, {
-            domain: domain
-        });
-
-        if (reference) {
-            from(configs, reference, [
-                'emailAddress',
-                'dnsServerName',
-                'dnsServerAccessKey',
-                'dnsServerAccessSecret',
-                'saveDirname',
-                'afterSaveCommand'
-            ]);
-            from(configs.smtp, reference.smtp, [
-                'from',
-                'to',
-                'subject',
-                'host',
-                'port',
-                'secure',
-                'user',
-                'pass'
-            ]);
-        }
-
-        domainConfigs.set(args.domain, configs);
-        console.logWithTime('配置信息');
-        console.log(configs);
-        console.infoWithTime('配置文件生成成功');
+        domainConfigs.set(domain, configs);
+        vim(domainConfigs.file(domain));
+        // console.logWithTime('配置信息');
+        // console.log(configs);
+        // console.infoWithTime('配置文件生成成功');
     } catch (err) {
         console.errorWithTime('配置文件生成失败');
         console.errorWithTime(err.message);
