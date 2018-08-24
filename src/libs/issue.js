@@ -171,10 +171,10 @@ function issue(configs, callback) {
                 challengeValue = keyAuthorization;
                 return applyChallenge(authz, challenge, keyAuthorization, next);
             })
-            .task(function (next) {
-                console.logWithTime('检查验证结果');
-                return dns(configs, challengeValue, next);
-            })
+            // .task(function (next) {
+            //     console.logWithTime('检查验证结果');
+            //     return dns(configs, challengeValue, next);
+            // })
             .taskPromise(function () {
                 console.logWithTime('提交验证结果');
                 return client.completeChallenge(challenge);
