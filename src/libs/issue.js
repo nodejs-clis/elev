@@ -11,13 +11,11 @@
 var console = require('blear.node.console');
 var array = require('blear.utils.array');
 var plan = require('blear.utils.plan');
-var time = require('blear.utils.time');
 // @link https://github.com/publishlab/node-acme-client
 var acme = require('acme-client');
 
 var alidns = require('./alidns');
 var constant = require('../settings/constant');
-var dns = require('./dns');
 var csr = require('./csr');
 var wait = require('../utils/wait');
 
@@ -171,10 +169,6 @@ function issue(configs, callback) {
                 challengeValue = keyAuthorization;
                 return applyChallenge(authz, challenge, keyAuthorization, next);
             })
-            // .task(function (next) {
-            //     console.logWithTime('检查验证结果');
-            //     return dns(configs, challengeValue, next);
-            // })
             .taskPromise(function () {
                 console.logWithTime('提交验证结果');
                 return client.completeChallenge(challenge);
