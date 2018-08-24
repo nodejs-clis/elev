@@ -73,11 +73,6 @@ module.exports = function (args, method) {
         if (reference) {
             from(configs, reference, [
                 'emailAddress',
-                'countryName',
-                'stateOrProvinceName',
-                'localityName',
-                'organizationName',
-                'organizationalUnitName',
                 'dnsServerName',
                 'dnsServerAccessKey',
                 'dnsServerAccessSecret',

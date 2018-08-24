@@ -1,11 +1,6 @@
 {
   "emailAddress": "",
   "domain": "",
-  "countryName": "CN",
-  "stateOrProvinceName": "",
-  "localityName": "",
-  "organizationName": "",
-  "organizationalUnitName": "IT",
   "dnsRefreshSeconds": 120,
   "dnsMaxCheckTimes": 20,
   "dnsServerName": "aliyun",
