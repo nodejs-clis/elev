@@ -87,24 +87,16 @@ function issue(configs, callback) {
                 .each(authorizations, verify)
                 .serial(next);
         })
-        // .taskPromise(function () {
-        //     console.logWithTime('创建 csr');
-        //     return acme.openssl.createCsr({
-        //         // 通用名称
-        //         commonName: domain,
-        //         altNames: [
-        //             domain,
-        //             '*.' + domain
-        //         ],
-        //         // @link https://countrycode.org/
-        //         country: configs.country,
-        //         state: configs.state,
-        //         locality: configs.locality,
-        //         organization: configs.organization
-        //     });
-        // })
-        .taskSync(function () {
-            return csr(configs);
+        .taskPromise(function () {
+            console.logWithTime('创建 csr');
+            return acme.openssl.createCsr({
+                // 通用名称
+                commonName: domain,
+                altNames: [
+                    domain,
+                    '*.' + domain
+                ]
+            });
         })
         .taskPromise(function (com) {
             certificateKey = com[0];
