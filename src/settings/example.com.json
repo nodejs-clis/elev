@@ -1,6 +1,6 @@
 {
-  "emailAddress": "",
   "domain": "",
+  "emailAddress": "",
   "dnsRefreshSeconds": 120,
   "dnsMaxCheckTimes": 20,
   "dnsServerName": "aliyun",
