@@ -87,11 +87,11 @@ function check(index, configs, record, callback) {
                 records = records || '';
 
                 if (records.indexOf(record) > -1) {
-                    console.logWithTime('第', (index + 1), '次检查', '成功匹配');
+                    console.logWithTime('第', (index + 1), '次检查', '匹配成功');
                     return next(new Error('found'));
                 }
 
-                console.logWithTime('第', (index + 1), '次检查', '未匹配到');
+                console.logWithTime('第', (index + 1), '次检查', '匹配失败');
                 next();
             });
         })
