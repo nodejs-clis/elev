@@ -40,7 +40,7 @@ module.exports = function (args, domain) {
     console.logWithTime('当前域名', domain);
 
     if (!domainRE.test(domain)) {
-        console.errorWithTime('这似乎不是一个合法的域名');
+        console.errorWithTime('当前域名似乎不是一个合法的域名');
         return;
     }
 
@@ -62,7 +62,7 @@ module.exports = function (args, domain) {
         console.logWithTime('参考域名', args.reference);
 
         if (!domainRE.test(args.reference)) {
-            console.errorWithTime(args.reference, '似乎不是一个合法的域名');
+            console.errorWithTime('参考域名似乎不是一个合法的域名');
             return;
         }
 
@@ -74,14 +74,6 @@ module.exports = function (args, domain) {
             return;
         }
     }
-
-    // // 无参考
-    // var domains = getDomains(domain);
-    // if (!reference && domains.length > 0) {
-    //     console.warnWithTime('当前你已配置了其他域名');
-    //     console.warnWithTime('使用 `elev domain` 列出当前已配置的域名');
-    //     console.warnWithTime('可以使用 `--reference, -r` 指定参考域名');
-    // }
 
     // 编辑模式 && 无覆盖
     if (editMode && !force) {

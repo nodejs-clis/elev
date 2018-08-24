@@ -22,24 +22,17 @@ cli
     )
     .usage(
         'elev domain <domain> -r [reference]',
-        '参考已有域名新建配置文件，\n' +
-        '需要覆盖已有的配置文件，需要传 -f 参数'
+        '参考指定域名进行新建或编辑配置文件'
     )
-    // .option('domain', {
-    //     alias: ['d'],
-    //     describe: '域名，仅支持单域名的泛域名证书',
-    //     type: 'string',
-    //     required: true
-    // })
     .option('reference', {
         alias: ['r'],
-        describe: '参考已配置好的域名配置文件',
+        describe: '指定参考域名',
         type: 'string',
         required: false
     })
     .option('force', {
         alias: 'f',
-        describe: '强制覆盖已存在的配置文件',
+        describe: '强制覆盖',
         type: 'boolean'
     })
     .helper()
