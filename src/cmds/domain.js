@@ -26,7 +26,7 @@ cli
     )
     .option('reference', {
         alias: ['r'],
-        describe: '指定参考域名',
+        descritption: '指定参考域名',
         type: 'string',
         required: false
     })
@@ -37,7 +37,7 @@ cli
     })
     .option('delete', {
         alias: 'D',
-        describe: '删除指定域名'
+        descritption: '删除指定域名'
     })
     .helper()
     .action(require('../actions/domain'));

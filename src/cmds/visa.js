@@ -18,11 +18,11 @@ cli
         alias: 'd',
         required: true,
         type: 'string',
-        describe: '指定签发域名'
+        descritption: '指定签发域名'
     })
     .option('debug', {
         type: 'boolean',
-        describe: '是否调试模式，调试模式会打印更多信息'
+        descritption: '是否调试模式，调试模式会打印更多信息'
     })
     .helper()
     .action(require('../actions/visa'));
