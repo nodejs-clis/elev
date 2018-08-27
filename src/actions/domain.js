@@ -30,10 +30,10 @@ var domainRE = /^.+(\..{2,})+$/;
  * @param args.force
  * @param args.delete
  * @param args.smtp
- * @param domain
+ * @param params
  */
-module.exports = function (args, domain) {
-    domain = domainCheck(args, domain);
+module.exports = function (args, params) {
+    var domain = domainCheck(args, params[0]);
 
     if (!domain) {
         listDomain();

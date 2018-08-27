@@ -13,10 +13,10 @@ var cli = require('blear.node.cli');
 /**
  * 定时任务相关
  * @param args
- * @param parmas
+ * @param params
  * @returns {*}
  */
-module.exports = function (args, parmas) {
+module.exports = function (args, params) {
     cli.help('cron');
 };
 
