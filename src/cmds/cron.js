@@ -15,10 +15,15 @@ cli
     .helper()
     .action(require('../actions/cron'))
 
-    .method('start', '每月 1 日凌晨 3 点启动定时任务')
+    .method('start', '启动定时任务')
     .action(require('../actions/cron-start'))
+
     .method('status', '查看定时任务状态')
     .action(require('../actions/cron-status'))
+
     .method('stop', '停止定时任务')
-    .action(require('../actions/cron-stop'));
+    .action(require('../actions/cron-stop'))
+
+    .method('schedule', '定时任务计划')
+    .action(require('../actions/cron-schedule'));
 

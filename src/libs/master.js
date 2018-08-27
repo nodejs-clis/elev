@@ -28,7 +28,7 @@ exports.start = function () {
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
-        console.errorWithTime('启动周期', constant.CRON_SCHEDULE_TEXT);
+        console.errorWithTime('启动周期', constant.CRON_SCHEDULE_DESCRIPTION);
         console.errorWithTime('daemonPid', info.daemonPid);
         console.errorWithTime('startTime', info.startTime);
         return;
@@ -212,7 +212,7 @@ function setWorkerInfo(pid) {
     }
 
     console.infoWithTime('定时任务启动成功');
-    console.infoWithTime('启动周期', constant.CRON_SCHEDULE_TEXT);
+    console.infoWithTime('启动周期', constant.CRON_SCHEDULE_DESCRIPTION);
     console.infoWithTime('daemonPid', info.daemonPid);
     console.infoWithTime('startTime', info.startTime);
     return info;

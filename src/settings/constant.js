@@ -22,18 +22,21 @@ exports.DOMAINS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'domains');
 // 日志目录
 exports.LOGS_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'logs');
 
-// 临时目录
-exports.TMP_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'tmp');
+// 定时任务目录
+exports.CRON_DIRNAME = path.join(exports.CONFIGS_DIRNAME, 'cron');
+
+// 定时计划文件路径
+exports.SCHEDULE_FILEPATH = path.join(exports.CRON_DIRNAME, 'schedule.json');
 
 // 定时任务文件路径
-exports.CRON_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'cron.json');
+exports.CRON_FILEPATH = path.join(exports.CRON_DIRNAME, 'cron.json');
 
 // 子进程配置文件路径
-exports.WORKER_FILEPATH = path.join(exports.CONFIGS_DIRNAME, 'worker.json');
+exports.WORKER_FILEPATH = path.join(exports.CRON_DIRNAME, 'worker.json');
 
 // 每月 1 日凌晨 4 点
 exports.CRON_SCHEDULE = 'at 20:00 on the last day of the month';
-exports.CRON_SCHEDULE_TEXT = '每月 1 日凌晨 4 点';
+exports.CRON_SCHEDULE_DESCRIPTION = '每月 1 日凌晨 4 点';
 
 // worker 环境变量
 exports.WORKER_ENV = '__elev_worker_mode__';
