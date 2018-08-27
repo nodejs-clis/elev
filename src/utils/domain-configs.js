@@ -45,4 +45,14 @@ exports.set = function (domain, configs) {
 };
 
 
+/**
+ * 获取域名配置信息
+ * @param domain
+ * @returns {*}
+ */
+exports.remove = function (domain) {
+    fse.removeSync(getFile(domain));
+};
+
+
 

@@ -28,19 +28,27 @@ var domainRE = /^[a-z\d][a-z\d-]*(\.[a-z]{2,})+$/;
  * @param args.debug
  * @param args.reference
  * @param args.force
+ * @param args.delete
  * @param args.smtp
  * @param domain
  */
 module.exports = function (args, domain) {
+    domain = domainCheck(args, domain);
+
     if (!domain) {
         listDomain();
         return;
     }
 
-    console.logWithTime('当前域名', domain);
-
-    if (!domainRE.test(domain)) {
-        console.errorWithTime('当前域名似乎不是一个合法的域名');
+    if (args.delete) {
+        try {
+            domainConfigs.remove(domain);
+            console.warnWithTime('域名配置文件删除成功');
+        } catch (err) {
+            // ignore
+            console.errorWithTime('域名配置文件删除失败');
+            console.errorWithTime(err.message);
+        }
         return;
     }
 
@@ -83,6 +91,29 @@ module.exports = function (args, domain) {
 
     generate(args, domain, reference);
 };
+
+
+/**
+ * 域名检查
+ * @param args
+ * @param domain
+ */
+function domainCheck(args, domain) {
+    domain = domain || args.delete;
+
+    if (!domain) {
+        return;
+    }
+
+    console.logWithTime('当前域名', domain);
+
+    if (!domainRE.test(domain)) {
+        console.errorWithTime('当前域名似乎不是一个合法的域名');
+        process.exit(1);
+    }
+
+    return domain;
+}
 
 
 /**

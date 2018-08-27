@@ -35,5 +35,9 @@ cli
         describe: '强制覆盖',
         type: 'boolean'
     })
+    .option('delete', {
+        alias: 'D',
+        describe: '删除指定域名'
+    })
     .helper()
     .action(require('../actions/domain'));
