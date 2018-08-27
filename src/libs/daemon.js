@@ -22,8 +22,8 @@ var getDomains = require('../utils/get-domains');
 var sched = later.parse.text(constant.CRON_SCHEDULE);
 
 if (constant.DEBUG) {
-    // 每 2 分钟
-    sched = later.parse.text('every 2 min');
+    // 每 10 分钟
+    sched = later.parse.text('every 10 min');
     // var list = later.schedule(sched).next(10);
     // list.forEach(function (d) {
     //     console.log(d, date.format('YYYY-MM-DD HH:mm:ss', d));
