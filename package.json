@@ -46,7 +46,8 @@
     "blear.utils.typeis": "^1.0.3",
     "fs-extra": "^7.0.0",
     "later": "^1.2.0",
-    "nodemailer": "^4.6.8"
+    "nodemailer": "^4.6.8",
+    "punycode": "^2.1.1"
   },
   "peerDependencies": {},
   "devDependencies": {},

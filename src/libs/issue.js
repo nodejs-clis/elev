@@ -13,6 +13,7 @@ var array = require('blear.utils.array');
 var plan = require('blear.utils.plan');
 // @link https://github.com/publishlab/node-acme-client
 var acme = require('acme-client');
+var punycode = require('punycode');
 
 var alidns = require('./alidns');
 var constant = require('../settings/constant');
@@ -42,6 +43,7 @@ function issue(configs, callback) {
     var order = null;
     var client = null;
     var domain = configs.domain;
+    var asciiDomain = punycode.toASCII(domain);
     var dnsRefreshSeconds = configs.dnsRefreshSeconds;
 
     plan
@@ -70,8 +72,8 @@ function issue(configs, callback) {
             console.logWithTime('创建 Let’s Encrypt 订单');
             return client.createOrder({
                 identifiers: [
-                    {type: 'dns', value: domain},
-                    {type: 'dns', value: '*.' + domain}
+                    {type: 'dns', value: asciiDomain},
+                    {type: 'dns', value: '*.' + asciiDomain}
                 ]
             });
         })
@@ -90,10 +92,10 @@ function issue(configs, callback) {
             console.logWithTime('创建 csr');
             return acme.openssl.createCsr({
                 // 通用名称
-                commonName: domain,
+                commonName: asciiDomain,
                 altNames: [
-                    domain,
-                    '*.' + domain
+                    asciiDomain,
+                    '*.' + asciiDomain
                 ]
             });
         })
