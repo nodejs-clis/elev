@@ -31,13 +31,12 @@ var logFile = args[2];
 var startDate = new Date();
 var workerPid = process.pid;
 var notify = function (err, history) {
-    if (!err) {
+    if (err) {
         console.logWithTime('elev 命令执行成功，开始邮件通知');
-        email();
-        return;
+    } else {
+        console.errorWithTime('elev 命令执行异常，开始邮件通知');
     }
 
-    console.logWithTime('elev 命令执行异常，开始邮件通知');
     email(domain, err, history, function (err, ret) {
         if (err) {
             console.errorWithTime('邮件通知失败');
