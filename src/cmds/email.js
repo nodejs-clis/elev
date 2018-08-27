@@ -15,7 +15,7 @@ cli
     .option('domain', {
         alias: ['d'],
         default: '',
-        descritption: '你需要测试的域名',
+        description: '你需要测试的域名',
         type: 'string',
         required: true
     })

@@ -21,23 +21,23 @@ cli
         '新建或编辑域名配置文件'
     )
     .usage(
-        'elev domain <domain> -r [reference]',
+        'elev domain <domain> -r <reference>',
         '参考指定域名进行新建或编辑配置文件'
     )
     .option('reference', {
         alias: ['r'],
-        descritption: '指定参考域名',
+        description: '指定参考域名',
         type: 'string',
         required: false
     })
     .option('force', {
         alias: 'f',
-        describe: '强制覆盖',
+        description: '强制覆盖',
         type: 'boolean'
     })
     .option('delete', {
         alias: 'D',
-        descritption: '删除指定域名'
+        description: '删除指定域名'
     })
     .helper()
     .action(require('../actions/domain'));
