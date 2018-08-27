@@ -18,6 +18,7 @@ var number = require('blear.utils.number');
 var date = require('blear.utils.date');
 
 var constant = require('../settings/constant');
+var schedule = require('../utils/schedule');
 
 
 /**
@@ -28,7 +29,7 @@ exports.start = function () {
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
-        console.errorWithTime('启动周期', constant.CRON_SCHEDULE_DESCRIPTION);
+        console.errorWithTime('启动周期', schedule.get().description);
         console.errorWithTime('daemonPid', info.daemonPid);
         console.errorWithTime('startTime', info.startTime);
         return;
@@ -212,7 +213,7 @@ function setWorkerInfo(pid) {
     }
 
     console.infoWithTime('定时任务启动成功');
-    console.infoWithTime('启动周期', constant.CRON_SCHEDULE_DESCRIPTION);
+    console.infoWithTime('启动周期', schedule.get().description);
     console.infoWithTime('daemonPid', info.daemonPid);
     console.infoWithTime('startTime', info.startTime);
     return info;

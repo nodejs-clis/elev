@@ -14,7 +14,7 @@ var constant = require('../settings/constant');
 
 /**
  * 获取
- * @returns {*}
+ * @returns {{expression: string, description: string, default: boolean, createAt: string}}
  */
 exports.get = function () {
     try {
