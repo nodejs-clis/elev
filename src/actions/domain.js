@@ -141,7 +141,6 @@ function vim(file) {
                 stdio: 'inherit'
             });
         } catch (err) {
-            console.errorWithTime('配置文件', file);
             console.errorWithTime('进入编辑模式失败，请手动编辑');
             console.errorWithTime(err.message);
         }
