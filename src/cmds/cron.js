@@ -22,8 +22,5 @@ cli
     .action(require('../actions/cron-status'))
 
     .method('stop', '停止定时任务')
-    .action(require('../actions/cron-stop'))
-
-    .method('schedule', '定时任务计划')
-    .action(require('../actions/cron-schedule'));
+    .action(require('../actions/cron-stop'));
 

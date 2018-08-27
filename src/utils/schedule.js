@@ -21,7 +21,7 @@ exports.get = function () {
         return fse.readJSONSync(constant.SCHEDULE_FILEPATH);
     } catch (err) {
         return {
-            schedule: constant.CRON_SCHEDULE,
+            expression: constant.CRON_SCHEDULE_EXPRESSION,
             description: constant.CRON_SCHEDULE_DESCRIPTION,
             default: true
         };
@@ -41,7 +41,7 @@ exports.set = function (conf) {
 /**
  * 删除
  */
-exports.set = function () {
+exports.remove = function () {
     fse.removeSync(constant.SCHEDULE_FILEPATH);
 };
 

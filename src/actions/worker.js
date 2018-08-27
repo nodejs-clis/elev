@@ -13,9 +13,16 @@ var console = require('blear.node.console');
 
 var mater = require('../libs/master');
 
-module.exports = function (args, method, params) {
-    if(/^\d$/.test(method)) {
-        mater.worker(number.parseInt(method, 0));
+/**
+ * worker
+ * @param args
+ * @param params
+ */
+module.exports = function (args, params) {
+    var param0 = params[0];
+
+    if(/^\d$/.test(param0)) {
+        mater.worker(number.parseInt(param0, 0));
     } else {
         console.errorWithTime('输入正确的 ID 号');
         console.errorWithTime('可以先执行 elev cron status 查看当的运行状态');

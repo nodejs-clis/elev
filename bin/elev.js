@@ -14,6 +14,7 @@ require('../src/cmds/root');
 require('../src/cmds/domain');
 require('../src/cmds/visa');
 require('../src/cmds/cron');
+require('../src/cmds/schedule');
 require('../src/cmds/worker');
 require('../src/cmds/email');
 
