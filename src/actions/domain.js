@@ -20,7 +20,7 @@ var domainConfigs = require('../utils/domain-configs');
 var getDomains = require('../utils/get-domains');
 var shell = require('../utils/shell');
 
-var domainRE = /^[a-z\d][a-z\d-]*(\.[a-z]{2,})+$/;
+var domainRE = /^.+(\..{2,})+$/;
 
 /**
  * 生成配置文件
@@ -136,9 +136,15 @@ function vim(file) {
     console.infoWithTime('即将进入编辑模式');
 
     setTimeout(function () {
-        shell('vim ' + file, {
-            stdio: 'inherit'
-        });
+        try {
+            shell('vim ' + file, {
+                stdio: 'inherit'
+            });
+        } catch (err) {
+            console.errorWithTime('配置文件', file);
+            console.errorWithTime('进入编辑模式失败，请手动编辑');
+            console.errorWithTime(err.message);
+        }
     }, 1000);
 }
 
@@ -210,12 +216,10 @@ function generate(args, domain, reference) {
 
     try {
         domainConfigs.set(domain, configs);
-        vim(domainConfigs.file(domain));
-        // console.logWithTime('配置信息');
-        // console.log(configs);
-        // console.infoWithTime('配置文件生成成功');
     } catch (err) {
         console.errorWithTime('配置文件生成失败');
         console.errorWithTime(err.message);
     }
+
+    vim(domainConfigs.file(domain));
 }
