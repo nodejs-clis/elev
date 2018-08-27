@@ -57,8 +57,8 @@ visa({domain: domain}, function (err) {
     var endDate = new Date();
     var history = {
         domain: domain,
-        startTime: date.format(constant.DATE_FORMAT, startDate),
-        endTime: date.format(constant.DATE_FORMAT, endDate),
+        startAt: date.format(constant.DATE_FORMAT, startDate),
+        endAt: date.format(constant.DATE_FORMAT, endDate),
         daemonPid: daemonPid,
         workerPid: workerPid,
         logFile: logFile,

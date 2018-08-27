@@ -16,6 +16,7 @@ var console = require('blear.node.console');
 var array = require('blear.utils.array');
 var number = require('blear.utils.number');
 var date = require('blear.utils.date');
+var later = require('later');
 
 var constant = require('../settings/constant');
 var schedule = require('../utils/schedule');
@@ -26,12 +27,26 @@ var schedule = require('../utils/schedule');
  */
 exports.start = function () {
     var info = getWorkerInfo();
+    var plan = schedule.get();
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
-        console.errorWithTime('启动周期', schedule.get().description);
+        console.errorWithTime('启动周期', plan.description);
         console.errorWithTime('daemonPid', info.daemonPid);
-        console.errorWithTime('startTime', info.startTime);
+        console.errorWithTime('startAt', info.startAt);
+        return;
+    }
+
+    console.logWithTime('正在检查定时任务计划表达式');
+
+    // 每月 1 日凌晨 3 点
+    later.date.localTime();
+    var sched = later.parse.cron(plan.expression, false);
+
+    if (sched.schedules.length === 0) {
+        console.errorWithTime('定时任务计划表达式有误');
+        console.errorWithTime('表达式 `%s`', plan.expression);
+        console.errorWithTime('描述', plan.description);
         return;
     }
 
@@ -79,7 +94,7 @@ exports.status = function () {
     var table = [
         ['master pid', info.masterPid],
         ['daemon pid', info.daemonPid],
-        ['start time', info.startTime],
+        ['start at', info.startAt],
         ['domains dirname', constant.DOMAINS_DIRNAME],
         ['logs dirname', constant.LOGS_DIRNAME],
         ['work times', info.workTimes]
@@ -88,7 +103,7 @@ exports.status = function () {
     array.each(info.workHistories, function (index, history) {
         table.push([
             'worker#' + index,
-            history.startTime
+            history.startAt
         ]);
     });
 
@@ -130,8 +145,8 @@ exports.worker = function (index) {
         ['master pid', info.masterPid],
         ['daemon pid', info.daemonPid],
         ['worker pid', history.workerPid],
-        ['start time', history.startTime],
-        ['end time', history.endTime],
+        ['start at', history.startAt],
+        ['end at', history.endAt],
         ['worker id', index],
         ['work domain', history.domain],
         ['work log', history.logFile],
@@ -197,7 +212,7 @@ function setWorkerInfo(pid) {
     var info = {
         daemonPid: pid,
         masterPid: process.pid,
-        startTime: date.format(constant.DATE_FORMAT),
+        startAt: date.format(constant.DATE_FORMAT),
         workTimes: 0,
         // 记录工作历史，包含启动时间，域名列表等信息
         workHistories: []
@@ -215,7 +230,7 @@ function setWorkerInfo(pid) {
     console.infoWithTime('定时任务启动成功');
     console.infoWithTime('启动周期', schedule.get().description);
     console.infoWithTime('daemonPid', info.daemonPid);
-    console.infoWithTime('startTime', info.startTime);
+    console.infoWithTime('startAt', info.startAt);
     return info;
 }
 

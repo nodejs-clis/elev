@@ -35,7 +35,7 @@ exports.CRON_FILEPATH = path.join(exports.CRON_DIRNAME, 'cron.json');
 exports.WORKER_FILEPATH = path.join(exports.CRON_DIRNAME, 'worker.json');
 
 // 每月 1 日凌晨 4 点
-exports.CRON_SCHEDULE_EXPRESSION = 'at 20:00 on the last day of the month';
+exports.CRON_SCHEDULE_EXPRESSION = '00 04 1 * *';
 exports.CRON_SCHEDULE_DESCRIPTION = '每月 1 日凌晨 4 点';
 
 // worker 环境变量

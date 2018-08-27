@@ -23,8 +23,6 @@ var schedule = require('../utils/schedule');
  * @returns {*}
  */
 module.exports = function (args, params) {
-    console.warnWithTime('定时任务计划表达式的时区是 UTC 时间');
-
     var sche = schedule.get();
     var table = [
         ['计划表达式', sche.expression],

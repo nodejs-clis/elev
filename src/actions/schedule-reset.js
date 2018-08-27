@@ -25,7 +25,9 @@ var schedule = require('../utils/schedule');
 module.exports = function (args, params) {
     try {
         schedule.remove();
+        var plan = schedule.get();
         console.infoWithTime('定时任务描述重置为默认成功');
+        console.infoWithTime('定时任务计划：%s', plan.description);
     } catch (err) {
         console.errorWithTime('定时任务描述重置为默认失败');
         console.errorWithTime(err.message);

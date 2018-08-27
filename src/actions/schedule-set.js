@@ -26,27 +26,25 @@ var constant = require('../settings/constant');
  * @returns {*}
  */
 module.exports = function (args, params) {
-    console.warnWithTime('定时任务计划表达式的时区是 UTC 时间');
+    var expression = args.expression;
+    later.date.localTime();
+    var sched = later.parse.cron(expression, false);
 
-    var rule = args.expression;
-    var sched = later.parse.text(rule);
-    var list = later.schedule(sched).next(10);
-
-    if (!typeis.Array(list)) {
-        console.errorWithTime(rule);
+    if (sched.schedules.length === 0) {
+        console.errorWithTime('`%s`', expression);
         console.errorWithTime('定时任务计划表达式有误，请按照 later 模块官网进行操作');
         console.errorWithTime('http://bunkat.github.io/later/parsers.html#text');
         return;
     }
 
+    var list = later.schedule(sched).next(10);
     var table = [
-        ['#', 'UTC 时间', '本地时间']
+        ['#', '触发时间']
     ];
 
     list.forEach(function (d, i) {
         table.push([
             '第' + string.padStart(i + 1, 2, '0') + '次',
-            d,
             date.format(constant.DATE_FORMAT, d)
         ]);
     });
@@ -57,7 +55,7 @@ module.exports = function (args, params) {
     });
 
     schedule.set({
-        expression: rule,
+        expression: expression,
         description: args.description || '用户自定义',
         default: false,
         createAt: date.format(constant.DATE_FORMAT)

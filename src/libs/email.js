@@ -83,8 +83,8 @@ function beautifyError(domain, err, history) {
 
     if (history) {
         codeList.push(
-            'history start at: ' + history.startTime,
-            'history start end: ' + history.endTime,
+            'history start at: ' + history.startAt,
+            'history start end: ' + history.endAt,
             'history daemon pid: ' + history.daemonPid,
             'history worker pid: ' + history.workerPid,
             'history log file: ' + history.logFile,
@@ -136,8 +136,8 @@ function beautifySuccess(domain, history) {
 
     if (history) {
         list.push(
-            'history start at: ' + history.startTime,
-            'history start end: ' + history.endTime,
+            'history start at: ' + history.startAt,
+            'history start end: ' + history.endAt,
             'history daemon pid: ' + history.daemonPid,
             'history worker pid: ' + history.workerPid,
             'history log file: ' + history.logFile,

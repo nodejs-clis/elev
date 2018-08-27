@@ -20,7 +20,12 @@ var getDomains = require('../utils/get-domains');
 var schedule = require('../utils/schedule');
 
 // 每月 1 日凌晨 3 点
-var sched = later.parse.text(schedule.get().expression);
+later.date.localTime();
+var sched = later.parse.cron(schedule.get().expression, false);
+
+if (sched.schedules.length === 0) {
+    process.exit(1);
+}
 
 later.setInterval(function () {
     plan
