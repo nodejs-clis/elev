@@ -1,5 +1,5 @@
 /**
- * 文件描述
+ * root command
  * @author ydr.me
  * @create 2018-08-18 15:55
  * @update 2018-08-18 15:55

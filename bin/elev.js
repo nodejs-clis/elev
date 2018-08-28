@@ -17,10 +17,16 @@ require('../src/cmds/cron');
 require('../src/cmds/schedule');
 require('../src/cmds/worker');
 require('../src/cmds/email');
+require('../src/cmds/version');
 
-cli.parse({
-    bin: 'elev',
-    package: require('../package.json')
-});
+
+cli
+    .guess(function (command) {
+        this.help();
+    })
+    .parse({
+        bin: 'elev',
+        package: require('../package.json')
+    });
 
 
