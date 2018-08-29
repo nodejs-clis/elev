@@ -16,6 +16,7 @@ var later = require('later');
 
 var schedule = require('../utils/schedule');
 var constant = require('../settings/constant');
+var master = require('../libs/master');
 
 /**
  * 定时任务计划
@@ -32,8 +33,7 @@ module.exports = function (args, params) {
 
     if (sched.schedules.length === 0) {
         console.errorWithTime('`%s`', expression);
-        console.errorWithTime('定时任务计划表达式有误，请按照 later 模块官网进行操作');
-        console.errorWithTime('http://bunkat.github.io/later/parsers.html#text');
+        console.errorWithTime('定时任务计划表达式有误，请按照 linux crontab 文档进行书写');
         return;
     }
 
@@ -61,4 +61,12 @@ module.exports = function (args, params) {
         createAt: date.format(constant.DATE_FORMAT)
     });
     console.infoWithTime('自定义定时任务计划设置成功');
+
+    var info = master.info();
+
+    if (info === null) {
+        return;
+    }
+
+    console.warnWithTime('当前有定时任务正在运行，你需要重新启动定时任务才能生效');
 };

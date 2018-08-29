@@ -81,6 +81,12 @@ exports.start = function () {
 };
 
 /**
+ * worker 进程信息
+ * @type {getWorkerInfo}
+ */
+exports.info = getWorkerInfo;
+
+/**
  * 状态 worker
  */
 exports.status = function () {
