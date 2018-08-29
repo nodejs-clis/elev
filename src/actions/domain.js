@@ -112,7 +112,7 @@ function domainCheck(args, domain) {
         process.exit(1);
     }
 
-    return domain;
+    return domain.toLowerCase();
 }
 
 

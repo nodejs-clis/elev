@@ -28,7 +28,10 @@ cli
         alias: ['r'],
         description: '指定参考域名',
         type: 'string',
-        required: false
+        required: false,
+        transform: function (val) {
+            return val.toLowerCase();
+        }
     })
     .option('force', {
         alias: 'f',
