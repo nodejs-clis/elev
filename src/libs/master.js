@@ -27,7 +27,6 @@ var schedule = require('../utils/schedule');
  */
 exports.start = function () {
     var info = getWorkerInfo();
-    var plan = schedule.get();
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
@@ -37,47 +36,7 @@ exports.start = function () {
         return;
     }
 
-    console.logWithTime('正在检查定时任务计划表达式');
-
-    // 每月 1 日凌晨 3 点
-    later.date.localTime();
-    var sched = later.parse.cron(plan.expression, false);
-
-    if (sched.schedules.length === 0) {
-        console.errorWithTime('定时任务计划表达式有误');
-        console.errorWithTime('表达式 `%s`', plan.expression);
-        console.errorWithTime('描述', plan.description);
-        return;
-    }
-
-    console.logWithTime('正在启动定时任务');
-
-    try {
-        var child = spawn(
-            process.execPath,
-            [require.resolve('./daemon.js')],
-            {
-                stdio: [
-                    // stdio
-                    'ignore',
-                    // stdout
-                    'ignore',
-                    // stderr
-                    'ignore'
-                ],
-                env: process.env,
-                cwd: process.cwd(),
-                detached: true
-            }
-        );
-        child.unref();
-    } catch (err) {
-        console.errorWithTime('定时任务启动失败');
-        console.errorWithTime(err.message);
-        return;
-    }
-
-    setWorkerInfo(child.pid);
+    start();
 };
 
 /**
@@ -178,19 +137,23 @@ exports.stop = function () {
         return;
     }
 
-    console.logWithTime('正在停止定时任务', info.daemonPid);
-
-    try {
-        process.kill(info.daemonPid, 'SIGINT');
-    } catch (err) {
-        console.errorWithTime('定时任务信号异常，请手动检查');
-        console.errorWithTime(err.message);
-    }
-
-    removeWorkerInfo();
-    console.logWithTime('定时任务已停止');
+    stop(info);
 };
 
+
+/**
+ * 重新启动
+ */
+exports.restart = function () {
+    var info = getWorkerInfo();
+
+    // 有旧定时任务
+    if (info !== null) {
+        stop(info);
+    }
+
+    start();
+};
 
 // ===========================
 
@@ -253,3 +216,70 @@ function removeWorkerInfo() {
 }
 
 
+/**
+ * 启动
+ */
+function start() {
+    var plan = schedule.get();
+
+    console.logWithTime('正在检查定时任务计划表达式');
+
+    // 每月 1 日凌晨 3 点
+    later.date.localTime();
+    var sched = later.parse.cron(plan.expression, false);
+
+    if (sched.schedules.length === 0) {
+        console.errorWithTime('定时任务计划表达式有误');
+        console.errorWithTime('表达式 `%s`', plan.expression);
+        console.errorWithTime('描述', plan.description);
+        return;
+    }
+
+    console.logWithTime('正在启动定时任务');
+
+    try {
+        var child = spawn(
+            process.execPath,
+            [require.resolve('./daemon.js')],
+            {
+                stdio: [
+                    // stdio
+                    'ignore',
+                    // stdout
+                    'ignore',
+                    // stderr
+                    'ignore'
+                ],
+                env: process.env,
+                cwd: process.cwd(),
+                detached: true
+            }
+        );
+        child.unref();
+    } catch (err) {
+        console.errorWithTime('定时任务启动失败');
+        console.errorWithTime(err.message);
+        return;
+    }
+
+    setWorkerInfo(child.pid);
+}
+
+
+/**
+ * 停止
+ * @param info
+ */
+function stop(info) {
+    console.logWithTime('正在停止定时任务', info.daemonPid);
+
+    try {
+        process.kill(info.daemonPid, 'SIGINT');
+    } catch (err) {
+        console.errorWithTime('定时任务信号异常，请手动检查');
+        console.errorWithTime(err.message);
+    }
+
+    removeWorkerInfo();
+    console.infoWithTime('定时任务已停止');
+}
