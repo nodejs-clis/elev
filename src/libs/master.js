@@ -27,6 +27,7 @@ var schedule = require('../utils/schedule');
  */
 exports.start = function () {
     var info = getWorkerInfo();
+    var plan = schedule.get();
 
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
@@ -36,7 +37,7 @@ exports.start = function () {
         return;
     }
 
-    start();
+    start(plan);
 };
 
 /**
@@ -146,13 +147,14 @@ exports.stop = function () {
  */
 exports.restart = function () {
     var info = getWorkerInfo();
+    var plan = schedule.get();
 
     // 有旧定时任务
     if (info !== null) {
         stop(info);
     }
 
-    start();
+    start(plan);
 };
 
 // ===========================
@@ -218,10 +220,9 @@ function removeWorkerInfo() {
 
 /**
  * 启动
+ * @param plan
  */
-function start() {
-    var plan = schedule.get();
-
+function start(plan) {
     console.logWithTime('正在检查定时任务计划表达式');
 
     // 每月 1 日凌晨 3 点

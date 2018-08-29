@@ -39,7 +39,7 @@ module.exports = function (args, params) {
 
     var list = later.schedule(sched).next(10);
     var table = [
-        ['#', '触发时间']
+        ['#', '执行时间']
     ];
 
     list.forEach(function (d, i) {
