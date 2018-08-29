@@ -36,7 +36,6 @@ var smtpAlias = {
 module.exports = function (args) {
     var message = '测试 smtp 邮件发送是否异常';
     var domain = args.domain;
-    var err = new Error(message);
 
     try {
         var configs = domainConfigs.get(domain);
@@ -46,7 +45,14 @@ module.exports = function (args) {
         return;
     }
 
-    var alias = smtpAlias[configs.smtp.host];
+    var smtpHost = configs.smtp.host;
+
+    if (!smtpHost) {
+        console.errorWithTime('smtp 配置不完善，请检查');
+        return;
+    }
+
+    var alias = smtpAlias[smtpHost];
 
     console.logWithTime(message);
 
