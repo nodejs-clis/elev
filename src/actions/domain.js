@@ -185,6 +185,7 @@ function generate(args, domain, reference) {
     });
 
     delete configs.force;
+    delete configs.delete;
     configs.certificateKeyFileName = string.assign(configs.certificateKeyFileName, {
         domain: domain
     });
