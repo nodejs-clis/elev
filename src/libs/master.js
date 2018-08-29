@@ -32,8 +32,8 @@ exports.start = function () {
     if (info !== null) {
         console.errorWithTime('定时任务正在运行');
         console.errorWithTime('启动周期', plan.description);
-        console.errorWithTime('daemonPid', info.daemonPid);
-        console.errorWithTime('startAt', info.startAt);
+        console.errorWithTime('daemon pid', info.daemonPid);
+        console.errorWithTime('start at', info.startAt);
         return;
     }
 
@@ -189,19 +189,19 @@ function setWorkerInfo(pid) {
         workHistories: []
     };
 
+    console.logWithTime('daemon pid', info.daemonPid);
+
     try {
         fse.outputJSONSync(constant.WORKER_FILEPATH, info);
     } catch (err) {
         console.errorWithTime('定时任务配置文件保存失败，无法被 elev 自动管理，请手动停止');
-        console.errorWithTime('daemonPid', info.daemonPid);
         console.errorWithTime(err.message);
         return null;
     }
 
     console.infoWithTime('定时任务启动成功');
     console.infoWithTime('启动周期', schedule.get().description);
-    console.infoWithTime('daemonPid', info.daemonPid);
-    console.infoWithTime('startAt', info.startAt);
+    console.infoWithTime('start at', info.startAt);
     return info;
 }
 
