@@ -190,7 +190,7 @@ function setWorkerInfo(pid) {
     };
 
     try {
-        fse.writeJSONSync(constant.WORKER_FILEPATH, info);
+        fse.outputJSONSync(constant.WORKER_FILEPATH, info);
     } catch (err) {
         console.errorWithTime('定时任务配置文件保存失败，无法被 elev 自动管理，请手动停止');
         console.errorWithTime('daemonPid', info.daemonPid);
