@@ -45,14 +45,12 @@ module.exports = function (args) {
         return;
     }
 
-    var smtpHost = configs.smtp.host;
-
-    if (!smtpHost) {
+    if (!configs.smtp || !configs.smtp.host) {
         console.errorWithTime('smtp 配置不完善，请检查');
         return;
     }
 
-    var alias = smtpAlias[smtpHost];
+    var alias = smtpAlias[configs.smtp.host];
 
     console.logWithTime(message);
 
