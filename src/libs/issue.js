@@ -26,14 +26,14 @@ module.exports = issue;
 /**
  * 颁发
  * @param configs
- * @param configs.dnsMaxCheckTimes
- * @param configs.dnsServerName
- * @param configs.dnsServerAccessKey
- * @param configs.dnsServerAccessSecret
- * @param configs.emailAddress
  * @param configs.debug
- * @param configs.domain
- * @param configs.dnsRefreshSeconds
+ * @param configs.base.dnsMaxCheckTimes
+ * @param configs.base.dnsServerName
+ * @param configs.base.dnsServerAccessKey
+ * @param configs.base.dnsServerAccessSecret
+ * @param configs.base.emailAddress
+ * @param configs.base.domain
+ * @param configs.base.dnsRefreshSeconds
  * @param callback
  */
 function issue(configs, callback) {
@@ -42,9 +42,9 @@ function issue(configs, callback) {
     var certificateCert = null;
     var order = null;
     var client = null;
-    var domain = configs.domain;
+    var domain = configs.base.domain;
     var asciiDomain = punycode.toASCII(domain);
-    var dnsRefreshSeconds = configs.dnsRefreshSeconds;
+    var dnsRefreshSeconds = configs.base.dnsRefreshSeconds;
 
     plan
         .taskPromise(function () {
@@ -58,14 +58,14 @@ function issue(configs, callback) {
                         ? acme.directory.letsencrypt.staging
                         : acme.directory.letsencrypt.production,
                 accountKey: privateKey,
-                backoffAttempts: configs.dnsMaxCheckTimes
+                backoffAttempts: configs.base.dnsMaxCheckTimes
             });
         })
         .taskPromise(function () {
             console.logWithTime('创建 Let’s Encrypt 账户');
             return client.createAccount({
                 termsOfServiceAgreed: true,
-                contact: ['mailto:' + configs.emailAddress]
+                contact: ['mailto:' + configs.base.emailAddress]
             });
         })
         .taskPromise(function () {
@@ -239,28 +239,3 @@ function issue(configs, callback) {
             });
     }
 }
-
-
-// =================================
-/**
- * 打印 loading
- */
-function consoleLoading() {
-    if (process.env[constant.WORKER_ENV]) {
-        return;
-    }
-
-    console.loading();
-}
-
-/**
- * 打印 loading end
- */
-function consoleLoadingEnd() {
-    if (process.env[constant.WORKER_ENV]) {
-        return;
-    }
-
-    console.loadingEnd();
-}
-

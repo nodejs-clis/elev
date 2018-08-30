@@ -16,7 +16,7 @@ require('../src/cmds/visa');
 require('../src/cmds/cron');
 require('../src/cmds/schedule');
 require('../src/cmds/worker');
-require('../src/cmds/email');
+require('../src/cmds/smtp');
 require('../src/cmds/version');
 require('../src/cmds/guess');
 

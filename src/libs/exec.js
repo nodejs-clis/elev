@@ -16,11 +16,11 @@ var shell = require('../utils/shell');
 /**
  * 执行命令
  * @param configs
- * @param configs.afterSaveCommand
+ * @param configs.base.afterSaveCommand
  * @param callback
  */
 module.exports = function (configs, callback) {
-    var command = configs.afterSaveCommand;
+    var command = configs.base.afterSaveCommand;
 
     console.logWithTime(command);
 

@@ -11,7 +11,7 @@
 var cli = require('blear.node.cli');
 
 cli
-    .command('domain', '域名配置文件')
+    .command('domain', '域名配置相关')
     .usage(
         'elev domain',
         '列出当前已配置的域名'

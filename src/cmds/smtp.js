@@ -11,7 +11,7 @@
 var cli = require('blear.node.cli');
 
 cli
-    .command('email', '域名通知邮件测试')
+    .command('smtp', 'SMTP 相关')
     .option('domain', {
         alias: ['d'],
         default: '',
@@ -20,5 +20,5 @@ cli
         required: true
     })
     .helper()
-    .action(require('../actions/email'));
+    .action(require('../actions/smtp'));
 

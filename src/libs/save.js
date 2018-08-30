@@ -15,12 +15,18 @@ var console = require('blear.node.console');
 /**
  * 保存文件
  * @param configs
+ * @param configs.debug
+ * @param configs.base.saveDirname
+ * @param configs.base.certificateKeyFileName
  * @param keyBf
  * @param pemBf
  * @param callback
  */
 module.exports = function (configs, keyBf, pemBf, callback) {
-    var file = path.join(configs.saveDirname, configs.certificateKeyFileName);
+    var saveDirname = configs.base.saveDirname;
+    var certificateKeyFileName = configs.base.certificateKeyFileName;
+    var certificateCertFileName = configs.base.certificateCertFileName;
+    var file = path.join(saveDirname, certificateKeyFileName);
 
     console.logWithTime(file);
 
@@ -40,7 +46,7 @@ module.exports = function (configs, keyBf, pemBf, callback) {
         return callback(err);
     }
 
-    file = path.join(configs.saveDirname, configs.certificateCertFileName);
+    file = path.join(saveDirname, certificateCertFileName);
     console.logWithTime(file);
 
     if (configs.debug) {
@@ -49,7 +55,7 @@ module.exports = function (configs, keyBf, pemBf, callback) {
 
     try {
         fse.outputFileSync(
-            path.join(configs.saveDirname, configs.certificateCertFileName),
+            path.join(saveDirname, certificateCertFileName),
             pemBf
         );
         console.logWithTime('文件保存成功');

@@ -214,8 +214,6 @@ function generate(args, domain, reference) {
         ]);
     }
 
-    console.log(configs);
-
     try {
         domainConfigs.set(domain, configs);
     } catch (err) {
@@ -224,5 +222,5 @@ function generate(args, domain, reference) {
         return;
     }
 
-    // vim(domainConfigs.file(domain));
+    vim(domainConfigs.file(domain));
 }

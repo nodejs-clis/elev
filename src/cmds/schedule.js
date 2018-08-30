@@ -11,7 +11,7 @@
 var cli = require('blear.node.cli');
 
 cli
-    .command('schedule', '定时任务计划相关')
+    .command('schedule', '定时计划相关')
     .helper()
     .action(require('../actions/schedule'))
 
