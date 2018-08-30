@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "acme-client": "^2.0.1",
+    "blear.classes.class": "^1.1.7",
     "blear.classes.error": "^1.0.4",
     "blear.node.cli": "^1.2.1",
     "blear.node.console": "^1.1.3",
@@ -41,10 +42,11 @@
     "blear.utils.plan": "^2.2.1",
     "blear.utils.querystring": "^1.0.5",
     "blear.utils.random": "^1.0.4",
-    "blear.utils.string": "^1.0.9",
+    "blear.utils.string": "^1.0.10",
     "blear.utils.time": "^1.0.6",
     "blear.utils.typeis": "^1.0.3",
     "fs-extra": "^7.0.0",
+    "ini": "^1.3.5",
     "later": "^1.2.0",
     "nodemailer": "^4.6.8",
     "punycode": "^2.1.1"

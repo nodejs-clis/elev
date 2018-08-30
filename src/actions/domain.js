@@ -219,6 +219,7 @@ function generate(args, domain, reference) {
     } catch (err) {
         console.errorWithTime('配置文件生成失败');
         console.errorWithTime(err.message);
+        return;
     }
 
     vim(domainConfigs.file(domain));

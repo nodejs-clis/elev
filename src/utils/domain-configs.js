@@ -9,9 +9,12 @@
 'use strict';
 
 var path = require('blear.node.path');
-var fse = require('fs-extra');
 
 var constant = require('../settings/constant');
+var Conf =  require('./conf');
+
+var conf = new Conf('example.com.ini');
+var EXTENSION = '.ini';
 
 /**
  * 配置文件路径
@@ -21,7 +24,7 @@ var constant = require('../settings/constant');
 var getFile = exports.file = function (domain) {
     return path.join(
         constant.DOMAINS_DIRNAME,
-        domain + '.json'
+        domain + EXTENSION
     );
 };
 
@@ -31,7 +34,7 @@ var getFile = exports.file = function (domain) {
  * @returns {*}
  */
 exports.get = function (domain) {
-    return fse.readJSONSync(getFile(domain));
+    return conf.parse(getFile(domain));
 };
 
 /**
@@ -41,7 +44,7 @@ exports.get = function (domain) {
  * @returns {*}
  */
 exports.set = function (domain, configs) {
-    fse.outputFileSync(getFile(domain), JSON.stringify(configs, null, 4) + '\n');
+    conf.generate(getFile(domain), configs);
 };
 
 
@@ -51,7 +54,7 @@ exports.set = function (domain, configs) {
  * @returns {*}
  */
 exports.remove = function (domain) {
-    fse.removeSync(getFile(domain));
+    conf.remove(getFile(domain));
 };
 
 
