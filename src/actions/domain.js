@@ -181,20 +181,20 @@ function listDomain() {
  */
 function generate(args, domain, reference) {
     var configs = object.assign(true, {}, defaults, args, {
-        domain: domain
+        base: {
+            domain: domain
+        }
     });
 
-    delete configs.force;
-    delete configs.delete;
-    configs.certificateKeyFileName = string.assign(configs.certificateKeyFileName, {
+    configs.base.certificateKeyFileName = string.assign(configs.base.certificateKeyFileName, {
         domain: domain
     });
-    configs.certificateCertFileName = string.assign(configs.certificateCertFileName, {
+    configs.base.certificateCertFileName = string.assign(configs.base.certificateCertFileName, {
         domain: domain
     });
 
     if (reference) {
-        from(configs, reference, [
+        from(configs.base, reference.base, [
             'emailAddress',
             'dnsServerName',
             'dnsServerAccessKey',
@@ -214,6 +214,8 @@ function generate(args, domain, reference) {
         ]);
     }
 
+    console.log(configs);
+
     try {
         domainConfigs.set(domain, configs);
     } catch (err) {
@@ -222,5 +224,5 @@ function generate(args, domain, reference) {
         return;
     }
 
-    vim(domainConfigs.file(domain));
+    // vim(domainConfigs.file(domain));
 }
