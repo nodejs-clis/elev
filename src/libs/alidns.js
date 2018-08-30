@@ -110,17 +110,17 @@ function buildPublicArgs(accessKeyId, accessKeySecret) {
  * 设置记录
  * @link https://help.aliyun.com/document_detail/29772.html
  * @param configs
- * @param configs.dnsServerAccessKey
- * @param configs.dnsServerAccessSecret
- * @param configs.domain
  * @param configs.debug
+ * @param configs.base.dnsServerAccessKey
+ * @param configs.base.dnsServerAccessSecret
+ * @param configs.base.domain
  * @param value
  * @param callback
  */
 function addRecord(configs, value, callback) {
-    var accessKeyId = configs.dnsServerAccessKey;
-    var accessKeySecret = configs.dnsServerAccessSecret;
-    var domain = configs.domain;
+    var accessKeyId = configs.base.dnsServerAccessKey;
+    var accessKeySecret = configs.base.dnsServerAccessSecret;
+    var domain = configs.base.domain;
     var method = 'get';
     var privateArgs = {
         Action: 'AddDomainRecord',
@@ -151,15 +151,15 @@ function addRecord(configs, value, callback) {
 /**
  * 删除记录
  * @param configs
- * @param configs.dnsServerAccessKey
- * @param configs.dnsServerAccessSecret
  * @param configs.debug
+ * @param configs.base.dnsServerAccessKey
+ * @param configs.base.dnsServerAccessSecret
  * @param recordId
  * @param callback
  */
 function removeRecord(configs, recordId, callback) {
-    var accessKeyId = configs.dnsServerAccessKey;
-    var accessKeySecret = configs.dnsServerAccessSecret;
+    var accessKeyId = configs.base.dnsServerAccessKey;
+    var accessKeySecret = configs.base.dnsServerAccessSecret;
     var method = 'get';
     var privateArgs = {
         Action: 'DeleteDomainRecord',
