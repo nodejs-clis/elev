@@ -52,7 +52,7 @@ var Conf = Class.extend({
     },
 
     remove: function (file) {
-        fse.removeSync(file);
+        fs.unlinkSync(file);
     }
 });
 

@@ -77,7 +77,7 @@ module.exports = function (args, params) {
         try {
             reference = domainConfigs.get(args.reference);
         } catch (err) {
-            console.errorWithTime('参考域名的配置文件获取失败', args.reference);
+            console.errorWithTime('参考域名的配置文件获取失败');
             console.errorWithTime(err.message);
             return;
         }
