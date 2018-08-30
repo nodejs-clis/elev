@@ -20,10 +20,10 @@ var constant = require('../settings/constant');
  * @returns {(string)[]}
  */
 module.exports = function (exclude) {
-    var list = path.glob('*.json', {
+    var list = path.glob('*.ini', {
         srcDirname: constant.DOMAINS_DIRNAME
     }).map(function (filename) {
-        return path.basename(filename).replace(/\.json$/i, '');
+        return path.basename(filename).replace(/\.ini$/i, '');
     });
 
     if (typeis.Undefined(exclude)) {
